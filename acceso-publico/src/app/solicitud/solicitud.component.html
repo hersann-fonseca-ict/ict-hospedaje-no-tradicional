@@ -1,0 +1,219 @@
+<div class="text-center" >
+  <h1 class="h4 text-gray-900 mb-4">Formulario de Solicitud de Beneficios<p
+      style="text-align: right;font-weight: bold;font-size: 20px;" *ngIf="solicitudTemp != null">Formulario
+      #F00{{solicitudTemp.id}}</p>
+  </h1>
+  <hr>
+</div>
+<section class="signup-step-container" *ngIf = "existePerfil">
+  <div class="container-fluid">
+    <div class="col-lg-12">
+      <div >
+        <div>
+
+          <form role="form" action="index.html" class="login-box user">
+            <div class="tab-content" id="main_form" >
+              <div class="tab-pane active" role="tabpanel" id="step4">
+                <h4 class="text-center">Resumen</h4>
+                <div class="all-info-container">
+                  <div class="list-content">
+                    <a href="#listone" data-toggle="collapse" aria-expanded="false" aria-controls="listone">Información
+                      Personal<i class="fa fa-chevron-down"></i></a>
+                    <div class="collapse" id="listone">
+                      <div class="list-box">
+                        <div class="form-group row">
+                          <div class="col-sm-6 mb-6 mb-sm-0">
+                            <label class="control-label">Tipo Identificación:</label>
+                            <input disabled="disabled" type="text" class="form-control form-control-user"
+                              name="tipoIdentificaciónResumen" [(ngModel)]="tipoIdentificacion"
+                              placeholder="Tipo Identificación">
+                          </div>
+                          <div class="col-sm-6 mb-6 mb-sm-0">
+                            <label class="control-label">Identificación:</label>
+                            <input disabled="disabled" type="text" class="form-control form-control-user"
+                              name="identificaciónResumen" [(ngModel)]="identificacion" placeholder="Identificación">
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <div class="col-sm-6 mb-6 mb-sm-0">
+                            <label class="control-label">Nombre:</label>
+                            <input disabled="disabled" type="text" class="form-control form-control-user"
+                              id="nombreResumen" placeholder="Nombre" name="nombreResumen" [(ngModel)]="nombre">
+                          </div>
+                          <div class="col-sm-6 mb-6 mb-sm-0">
+                            <label class="control-label">Primer Apellido:</label>
+                            <input disabled="disabled" type="text" class="form-control form-control-user"
+                              id="ApellidoResumen" placeholder="Primer Apellido" name="ApellidoResumen"
+                              [(ngModel)]="apellido1">
+                          </div>
+                        </div>
+
+                        <div class="form-group row">
+                          <div class="col-sm-6 mb-6 mb-sm-0">
+                            <label class="control-label">Segundo Apellido:</label>
+                            <input disabled="disabled" type="text" class="form-control form-control-user"
+                              id="Apellido2Resumen" placeholder="Segundo Apellido" name="Apellido2Resumen"
+                              [(ngModel)]="apellido2">
+                          </div>
+                          <div class="col-sm-6 mb-6 mb-sm-0">
+                            <label class="control-label">Teléfono:</label>
+                            <input disabled="disabled" type="email" class="form-control form-control-user"
+                              id="telefonoResumen" placeholder="Teléfono" name="telefonoResumen" [(ngModel)]="telefono">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="list-content">
+                    <a href="#listtwo" data-toggle="collapse" aria-expanded="false" aria-controls="listtwo">Dirección<i
+                        class="fa fa-chevron-down"></i></a>
+                    <div class="collapse" id="listtwo">
+                      <div class="list-box">
+                        <div class="form-group row">
+                          <div class="col-sm-4 mb-3 mb-sm-0">
+                            <div class="form-group">
+                              <label>Provincia</label>
+
+                              <input disabled="disabled" type="text" class="form-control form-control-user"
+                                id="provinciaResumen" name="provinciaResumen" [(ngModel)]="provincia">
+
+                            </div>
+                          </div>
+                          <div class="col-sm-4 mb-3 mb-sm-0">
+                            <label class="control-label">Cantón:</label>
+                            <input disabled="disabled" type="text" class="form-control form-control-user"
+                              id="cantonResumen" placeholder="Canton" name="cantonResumen" [(ngModel)]="canton">
+                          </div>
+                          <div class="col-sm-4">
+                            <label class="control-label">Distrito:</label>
+                            <input disabled="disabled" type="text" class="form-control form-control-user"
+                              id="distritoResumen" placeholder="Distrito" name="distritoResumen" [(ngModel)]="distrito">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="control-label">Dirección:</label>
+                          <textarea disabled="disabled" type="tex" class="form-control form-control-user"
+                            id="direccionResumen" placeholder="Dirección" name="direccionResumen"
+                            [(ngModel)]="direccion"></textarea>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                  <div class="list-content">
+                    <a href="#listthree" data-toggle="collapse" aria-expanded="false"
+                      aria-controls="listthree">Actividades<i class="fa fa-chevron-down"></i></a>
+                    <div class="collapse" id="listthree">
+                      <div class="list-box">
+                        <div class="table-responsive">
+                          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                              <tr>
+                                <th>Tipo de Servicio</th>
+                                <th>Código {{this.tipoServicio != null &&  this.tipoServicio.nombre != undefined ? this.tipoServicio.nombre : '' }}</th>
+                                <th>Observaciones de Actividad</th>
+                              </tr>
+                            </thead>
+                         
+                            <tbody>
+                              <tr *ngFor="let actividad of listaActividades">
+                                <td>{{ actividad.tipoServicio }}</td>
+                                <td>{{ actividad.codig != null ? actividad.codig : 'no requiere código'  }}</td>
+                                <td>{{ actividad.observaciones }}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12" *ngIf='listaArchivos != null'>
+                    <label>Documentos adjuntos en solicitud</label>
+                        <ul  style="font-size: 16px;" *ngFor="let archivo of listaArchivos">
+                            <a  href="javascript:void(0);">{{archivo}}</a>
+                          </ul>
+                </div>
+                </div>
+                <form #afectacionForm2="ngForm" [formGroup]="afectacionForm" (ngSubmit)="enviarSolicitud()" >
+                  <div class="form-group">
+                    <label class="control-label">Afectación:</label>
+                    <textarea maxlength="250" [readOnly]="estadoSolicitud=='APROBADA' || estadoSolicitud=='ABIERTA'" name="afectaciones"
+                      [(ngModel)]="afectaciones" [ngClass]="{ 'is-invalid': a.afectaciones.errors  && (a.afectaciones.dirty || a.afectaciones.touched) }"
+                      formControlName="afectaciones" type="text" class="form-control form-control-user"
+                      id="exampleInputEmail" placeholder="Describa los problemas presentados"></textarea>
+                    <div *ngIf="a.afectaciones.errors" class="invalid-feedback">
+                      <div *ngIf="a.afectaciones.errors.required">El campo afectación es requerido</div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Documentos</label>
+                    <div class="custom-file">
+                      <input [disabled]="estadoSolicitud=='APROBADA' || estadoSolicitud=='ABIERTA'" type="file"
+                       id="customFile"  multiple="multiple" (change)="change($event)">
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                  <ul class="list-inline pull-center">
+                    <button [disabled]="afectacionForm2.form.invalid || enviado" class="btn  mr-1 btn-color" mat-button
+                      *ngIf="estadoSolicitud=='RECHAZADA' || estadoSolicitud=='nueva'">Enviar</button>
+                  </ul>
+                </form>
+              </div>
+              <br>
+              Estado de solicitud:
+              <div class="progress">
+                <div class="progress-bar  progress-bar-striped progress-bar-animated" role="progressbar"
+                  style="width: 33.33%; background-color: #048dbb" aria-valuenow="15" aria-valuemin="0"
+                  aria-valuemax="100" *ngIf="estadoSolicitud!='nueva'">Entregado</div>
+                <div class="progress-bar progress-bar-striped  progress-bar-animated" role="progressbar"
+                  style="width: 33.33%; background-color: #b4b74c" aria-valuenow="30" aria-valuemin="0"
+                  aria-valuemax="100" *ngIf="estadoSolicitud!='nueva'">Procesando</div>
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                  style="width: 33.33%; background-color: #72be44" aria-valuenow="20" aria-valuemin="0"
+                  aria-valuemax="100" *ngIf="estadoSolicitud=='APROBADA'">Aprobado</div>
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                  style="width: 33.33%; background-color: red" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"
+                  *ngIf="estadoSolicitud=='RECHAZADA'">Rechazado</div>
+
+              </div>
+              <br>
+              <div class="card" *ngIf="estadoSolicitud=='RECHAZADA' || estadoSolicitud=='APROBADA'">
+                <div style="text-align: center;" class="card-header">
+                  Respuesta
+                </div>
+                <div class="card-body">
+                  <p *ngIf="estadoSolicitud=='RECHAZADA'"
+                    style="font-size: 20px;font-weight: bold;margin-block-end: 0em;">Solicitud: Rechazada</p>
+                  <p *ngIf="estadoSolicitud=='APROBADA'"
+                    style="font-size: 20px;font-weight: bold;margin-block-end: 0em;">Solicitud: Aprobada</p>
+                  <blockquote class="blockquote mb-0">
+                    <div *ngIf="estadoSolicitud=='APROBADA'">
+                      <p style="font-size: 18px;">Beneficios adquiridos:</p>
+                      <ul style="font-size: 16px;" *ngFor="let beneficio of listaBeneficios">
+                        <li class="list-group-item">{{beneficio.nombreBeneficio}}</li>
+                      </ul>
+                    </div>
+                    <div *ngIf="estadoSolicitud=='RECHAZADA'">
+                      <p style="font-size: 18px;">{{justificacion}}</p>
+                    </div>
+                  
+                  </blockquote>
+
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<h4 *ngIf = "!existePerfil">{{textoExiste}}</h4>
+
+
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+  <i class="fas fa-angle-up"></i>
+</a>

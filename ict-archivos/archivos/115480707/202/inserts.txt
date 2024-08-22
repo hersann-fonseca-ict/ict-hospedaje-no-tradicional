@@ -1,0 +1,73 @@
+{
+  "idAgentType": 1,
+  "authorizationNumber": "102GD6238",
+  "description": "agente de seguro",
+  "startDate": "2020-10-21T18:52:26.707Z",
+  "endDate": "2021-10-21T18:52:26.707Z",
+  "creationDate": "2020-10-21T18:52:26.707Z",
+  "paymentPeriodicity": "año",
+  "currency": 1,
+  "totalCoverageAmount": 22500000,
+  "downpayment": 6324,
+  "minBeneficiaries": 1,
+  "maxBeneficiaries": 4,
+  "idInsurancePlan": 1,
+  "ip": "string",
+  "latitude": "string",
+  "longitude": "string",
+  "operatingSystem": "string"
+}
+
+
+{
+  "people": {
+
+ "name":"Ana Lucrecia","firstSurname":"Zuñiga","secondSurname":"Saenz","idIdentificationType":1,"identification":"76-7687-6780","birthdate":"2020-10-07","idGender":1,"idMaritalStatus":3,"idCountry":1,"idState":3,"idCity":301,"idCounty":30104
+
+  },
+  "idPolicy": 1,
+  "phone": "1212",
+  "email": "test",
+  "otherAddress": "test",
+  "employerName": "test",
+  "occupation": "test",
+  "employerPhone": "test",
+  "creationDate": "2020-10-22T16:15:39.497Z"
+}
+{"name":"Ana Lucrecia","firstSurname":"Zuñiga","secondSurname":"Saenz","idIdentificationType":1,"identification":"76-7687-6786","birthdate":"2020-10-07","idGender":1,"idMaritalStatus":3,"idCountry":1,"idState":3,"idCity":301,"idCounty":30104
+
+}
+
+
+{
+  
+  "people": {
+
+ "name":"Ana Lucrecia","firstSurname":"Zuñiga","secondSurname":"Saenz","idIdentificationType":1,"identification":"76-7687-6780","birthdate":"2020-10-07","idGender":1,"idMaritalStatus":3,"idCountry":1,"idState":3,"idCity":301,"idCounty":30104
+
+  },
+  "idPolicy": 1,
+  "creationDateTime": "2020-10-22T14:57:23.391Z",
+  "ip": "string",
+  "latitude": "string",
+  "longitude": "string",
+  "operatingSystem": "string",
+  "browser": "string",
+  "uuid": "string"
+}
+
+
+
+
+
+1. numero de  poliza falta
+2. numero de tipo agente preguntar el default
+3. cargar datos si persona existe
+
+
+
+
+
+
+
+

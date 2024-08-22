@@ -1,0 +1,266 @@
+version: "3"
+services:
+  servidor-eureka:
+    container_name: servidor-eureka
+    build: ./ict-eureka
+    ports:
+      - 8761:8761
+    networks:
+      - ict-airbnb-network
+    links:
+      - servidor-zuul
+      - servicio-oauth
+      - servicio-tipo-servicios
+      - servicio-beneficios
+      - servicio-notificaciones
+      - servicio-roles
+      - servicio-perfiles
+      - servicio-solicitudes
+      - servicio-usuarios
+      - servicio-direccion
+      - servicio-alojamiento
+      - servicio-localizacion-inmueble
+      - servicio-secuencia
+  servicio-tipo-servicios:
+    container_name: servicio-tipo-servicios
+    build: ./ict-tipo-servicios
+    networks:
+      - ict-airbnb-network
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@//172.31.104.59:1521/ICTD1
+      - SPRING_DATASOURCE_USERNAME=ictbeneficiosprod
+      - SPRING_DATASOURCE_PASSWORD=gbsystem01
+      - SPRING_DATASOURCE_DRIVERCLASSNAME=oracle.jdbc.OracleDriver
+      - SPRING_JPA_DATABASEPLATFORM=org.hibernate.dialect.Oracle10gDialect
+      - SPRING_JPA_HIBERNATE_DDLAUTO=update
+      - SERVER_SERVLET_ENCODING_CHARSET=UTF-8
+      - SERVER_SERVLET_ENCODING_FORCE_RESPONSE=true
+      - SPRING_DATASOURCE_HIKARI_AUTO_COMMIT=false
+      - SPRING_JPA_PROPERTIES_HIBERNATE_CONNECTION_PROVIDER_DISABLES_AUTOCOMMIT=true
+  servicio-beneficios:
+    container_name: servicio-beneficios
+    build: ./ict-beneficios
+    networks:
+      - ict-airbnb-network
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@//172.31.104.59:1521/ICTD1
+      - SPRING_DATASOURCE_USERNAME=ictbeneficiosprod
+      - SPRING_DATASOURCE_PASSWORD=gbsystem01
+      - SPRING_DATASOURCE_DRIVERCLASSNAME=oracle.jdbc.OracleDriver
+      - SPRING_JPA_DATABASEPLATFORM=org.hibernate.dialect.Oracle10gDialect
+      - SPRING_JPA_HIBERNATE_DDLAUTO=update
+      - SERVER_SERVLET_ENCODING_CHARSET=UTF-8
+      - SERVER_SERVLET_ENCODING_FORCE_RESPONSE=true
+      - SPRING_DATASOURCE_HIKARI_AUTO_COMMIT=false
+      - SPRING_JPA_PROPERTIES_HIBERNATE_CONNECTION_PROVIDER_DISABLES_AUTOCOMMIT=true
+  servicio-notificaciones:
+    container_name: servicio-notificaciones
+    build: ./ict-notificaciones
+    networks:
+      - ict-airbnb-network
+    environment:
+      - URLSISTEMA=https://172.31.104.59:4202/#/login
+  servicio-archivos:
+    container_name: servicio-archivos
+    build: ./ict-archivos
+    networks:
+      - ict-airbnb-network
+  servicio-direccion:
+    container_name: servicio-direccion
+    build: ./ict-direccion
+    networks:
+      - ict-airbnb-network
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@//172.31.104.59:1521/ICTD1
+      - SPRING_DATASOURCE_USERNAME=ictbeneficiosprod
+      - SPRING_DATASOURCE_PASSWORD=gbsystem01
+      - SPRING_DATASOURCE_DRIVERCLASSNAME=oracle.jdbc.OracleDriver
+      - SPRING_JPA_DATABASEPLATFORM=org.hibernate.dialect.Oracle10gDialect
+      - SPRING_JPA_HIBERNATE_DDLAUTO=update
+      - SERVER_SERVLET_ENCODING_CHARSET=UTF-8
+      - SERVER_SERVLET_ENCODING_FORCE_RESPONSE=true
+      - SPRING_DATASOURCE_HIKARI_AUTO_COMMIT=false
+      - SPRING_JPA_PROPERTIES_HIBERNATE_CONNECTION_PROVIDER_DISABLES_AUTOCOMMIT=true
+  servicio-roles:
+    container_name: servicio-roles
+    build: ./ict-roles
+    networks:
+      - ict-airbnb-network
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@//172.31.104.59:1521/ICTD1
+      - SPRING_DATASOURCE_USERNAME=ictbeneficiosprod
+      - SPRING_DATASOURCE_PASSWORD=gbsystem01
+      - SPRING_DATASOURCE_DRIVERCLASSNAME=oracle.jdbc.OracleDriver
+      - SPRING_JPA_DATABASEPLATFORM=org.hibernate.dialect.Oracle10gDialect
+      - SPRING_JPA_HIBERNATE_DDLAUTO=update
+      - SERVER_SERVLET_ENCODING_CHARSET=UTF-8
+      - SERVER_SERVLET_ENCODING_FORCE_RESPONSE=true
+      - SPRING_DATASOURCE_HIKARI_AUTO_COMMIT=false
+      - SPRING_JPA_PROPERTIES_HIBERNATE_CONNECTION_PROVIDER_DISABLES_AUTOCOMMIT=true
+  servicio-secuencia:
+    container_name: servicio-secuencia
+    build: ./ict-secuencia
+    networks:
+      - ict-airbnb-network
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@//172.31.104.59:1521/ICTD1
+      - SPRING_DATASOURCE_USERNAME=ictbeneficiosprod
+      - SPRING_DATASOURCE_PASSWORD=gbsystem01
+      - SPRING_DATASOURCE_DRIVERCLASSNAME=oracle.jdbc.OracleDriver
+      - SPRING_JPA_DATABASEPLATFORM=org.hibernate.dialect.Oracle10gDialect
+      - SPRING_JPA_HIBERNATE_DDLAUTO=update
+      - SERVER_SERVLET_ENCODING_CHARSET=UTF-8
+      - SERVER_SERVLET_ENCODING_FORCE_RESPONSE=true
+      - SPRING_DATASOURCE_HIKARI_AUTO_COMMIT=false
+      - SPRING_JPA_PROPERTIES_HIBERNATE_CONNECTION_PROVIDER_DISABLES_AUTOCOMMIT=true
+  servicio-perfiles:
+    container_name: servicio-perfiles
+    build: ./ict-perfiles
+    networks:
+      - ict-airbnb-network
+    links:
+     - servicio-beneficios
+     - servicio-solicitudes
+     - servicio-notificaciones  
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@//172.31.104.59:1521/ICTD1
+      - SPRING_DATASOURCE_USERNAME=ictbeneficiosprod
+      - SPRING_DATASOURCE_PASSWORD=gbsystem01
+      - SPRING_DATASOURCE_DRIVERCLASSNAME=oracle.jdbc.OracleDriver
+      - SPRING_JPA_DATABASEPLATFORM=org.hibernate.dialect.Oracle10gDialect
+      - SPRING_JPA_HIBERNATE_DDLAUTO=update
+      - SERVER_SERVLET_ENCODING_CHARSET=UTF-8
+      - SERVER_SERVLET_ENCODING_FORCE_RESPONSE=true
+      - SPRING_DATASOURCE_HIKARI_AUTO_COMMIT=false
+      - SPRING_JPA_PROPERTIES_HIBERNATE_CONNECTION_PROVIDER_DISABLES_AUTOCOMMIT=true
+  servicio-solicitudes:
+    container_name: servicio-solicitudes
+    build: ./ict-solicitudes
+    networks:
+      - ict-airbnb-network 
+    links:
+      - servicio-notificaciones 
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@//172.31.104.59:1521/ICTD1
+      - SPRING_DATASOURCE_USERNAME=ictbeneficiosprod
+      - SPRING_DATASOURCE_PASSWORD=gbsystem01
+      - SPRING_DATASOURCE_DRIVERCLASSNAME=oracle.jdbc.OracleDriver
+      - SPRING_JPA_DATABASEPLATFORM=org.hibernate.dialect.Oracle10gDialect
+      - SPRING_JPA_HIBERNATE_DDLAUTO=update
+      - SERVER_SERVLET_ENCODING_CHARSET=UTF-8
+      - SERVER_SERVLET_ENCODING_FORCE_RESPONSE=true
+      - SPRING_DATASOURCE_HIKARI_AUTO_COMMIT=false
+      - SPRING_JPA_PROPERTIES_HIBERNATE_CONNECTION_PROVIDER_DISABLES_AUTOCOMMIT=true
+  servicio-usuarios:
+    container_name: servicio-usuarios
+    build: ./ict-usuarios
+    networks:
+      - ict-airbnb-network
+    links:
+      - servicio-notificaciones 
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@//172.31.104.59:1521/ICTD1
+      - SPRING_DATASOURCE_USERNAME=ictbeneficiosprod
+      - SPRING_DATASOURCE_PASSWORD=gbsystem01
+      - SPRING_DATASOURCE_DRIVERCLASSNAME=oracle.jdbc.OracleDriver
+      - SPRING_JPA_DATABASEPLATFORM=org.hibernate.dialect.Oracle10gDialect
+      - SPRING_JPA_HIBERNATE_DDLAUTO=update
+      - SERVER_SERVLET_ENCODING_CHARSET=UTF-8
+      - SERVER_SERVLET_ENCODING_FORCE_RESPONSE=true
+      - SPRING_DATASOURCE_HIKARI_AUTO_COMMIT=false
+      - SPRING_JPA_PROPERTIES_HIBERNATE_CONNECTION_PROVIDER_DISABLES_AUTOCOMMIT=true
+  servicio-alojamiento:
+    container_name: servicio-alojamiento
+    build: ./ict-alojamiento
+    networks:
+      - ict-airbnb-network
+    links:
+      - servicio-notificaciones 
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@//172.31.104.59:1521/ICTD1
+      - SPRING_DATASOURCE_USERNAME=ictbeneficiosprod
+      - SPRING_DATASOURCE_PASSWORD=gbsystem01
+      - SPRING_DATASOURCE_DRIVERCLASSNAME=oracle.jdbc.OracleDriver
+      - SPRING_JPA_DATABASEPLATFORM=org.hibernate.dialect.Oracle10gDialect
+      - SPRING_JPA_HIBERNATE_DDLAUTO=update
+      - SERVER_SERVLET_ENCODING_CHARSET=UTF-8
+      - SERVER_SERVLET_ENCODING_FORCE_RESPONSE=true
+      - SPRING_DATASOURCE_HIKARI_AUTO_COMMIT=false
+      - SPRING_JPA_PROPERTIES_HIBERNATE_CONNECTION_PROVIDER_DISABLES_AUTOCOMMIT=true
+  servicio-localizacion-inmueble:
+    container_name: servicio-localizacion-inmueble
+    build: ./ict-localizacion-inmueble
+    networks:
+      - ict-airbnb-network
+    links:
+      - servicio-notificaciones 
+      - servicio-alojamiento
+      - servicio-secuencia
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@//172.31.104.59:1521/ICTD1
+      - SPRING_DATASOURCE_USERNAME=ictbeneficiosprod
+      - SPRING_DATASOURCE_PASSWORD=gbsystem01
+      - SPRING_DATASOURCE_DRIVERCLASSNAME=oracle.jdbc.OracleDriver
+      - SPRING_JPA_DATABASEPLATFORM=org.hibernate.dialect.Oracle10gDialect
+      - SPRING_JPA_HIBERNATE_DDLAUTO=update
+      - SERVER_SERVLET_ENCODING_CHARSET=UTF-8
+      - SERVER_SERVLET_ENCODING_FORCE_RESPONSE=true
+      - SPRING_DATASOURCE_HIKARI_AUTO_COMMIT=false
+      - SPRING_JPA_PROPERTIES_HIBERNATE_CONNECTION_PROVIDER_DISABLES_AUTOCOMMIT=true
+  servicio-oauth:
+    container_name: servicio-oauth
+    build: ./ict-oauth
+    ports:
+      - 9100:9100
+    networks:
+      - ict-airbnb-network
+    links:
+      - servicio-perfiles
+      - servicio-usuarios
+  servidor-zuul:
+    container_name: servidor-zuul
+    build: ./ict-zuul
+    ports:
+      - 8090:8090
+    networks:
+      - ict-airbnb-network
+    links:
+      - servicio-oauth
+      - servicio-tipo-servicios
+      - servicio-beneficios
+      - servicio-notificaciones
+      - servicio-archivos
+      - servicio-roles
+      - servicio-perfiles
+      - servicio-solicitudes
+      - servicio-usuarios
+      - servicio-direccion
+      - servicio-alojamiento
+      - servicio-localizacion-inmueble
+      - servicio-secuencia
+    volumes:
+      - ./certificados:/certificados 
+  servidor-consola:
+    container_name: servidor-consola
+    build: ./consola-administrativa
+    ports:
+      - 8095:443
+    volumes:
+      - ./certificados:/certificados
+      - ./config.conf:/etc/nginx/conf.d/default.conf
+    networks: 
+      - ict-airbnb-network
+  servidor-publico:
+    container_name: servidor-publico
+    build: ./acceso-publico
+    ports: 
+      - 80:80
+      - 443:443
+    volumes:
+      - ./certificados:/certificados
+      - ./config.conf:/etc/nginx/conf.d/default.conf
+    networks: 
+      - ict-airbnb-network
+networks:
+  ict-airbnb-network:
+

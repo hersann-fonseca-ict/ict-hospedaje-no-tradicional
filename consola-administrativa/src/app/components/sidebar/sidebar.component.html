@@ -1,0 +1,45 @@
+<div class="logo">
+    <a href="/" class="simple-text">
+        <div class="logo-img">
+          <source class="img"/>
+            
+        </div>
+    </a>
+</div>
+<div class="sidebar-wrapper">
+  <div *ngIf="isMobileMenu()">
+    <form class="navbar-form">
+      <span class="bmd-form-group">
+        <div class="input-group no-border">
+          <ul class="nav">
+          <a   class="btn btn-white btn-round btn-just-icon nav-link" routerLink="#" (click)="abrirModal()">
+            <i class="material-icons">person</i>
+          </a>
+        </ul>
+        </div>
+      </span>
+    </form>
+  </div>
+
+
+
+
+    <ul class="nav" id="accordionSidebar">
+        <li routerLinkActive="active" *ngFor="let menuItem of lista_padres" class="{{menuItem.clase}} nav-item">
+          <a *ngIf="!menuItem.padre" (click)="setDesactiveOption(menuItem.id)" [ngClass]="{ 'expansion-panel-inactive': menuItem.opcionTurno }" class="nav-link " aria-expanded="true" [routerLink]="[menuItem.ruta]">
+                <i [ngClass]="{ 'expansion-panel-inactive-color-icon': menuItem.opcionTurno }"class="material-icons">{{menuItem.icono}}</i>
+                <p [ngClass]="{ 'expansion-panel-inactive-color-font': menuItem.opcionTurno }">{{menuItem.titulo}} </p>
+            </a> 
+            <a *ngIf="menuItem.padre" style="cursor: pointer;" class="nav-link "     [ngClass]="{ 'expansion-panel-click': menuItem.opcionTurno  && optionIDSelected==menuItem.id }" (click)="setActiveOption(menuItem.id)" data-toggle="collapse" data-target="#collapseTwo"  aria-expanded="true"
+            aria-controls="collapseTwo">
+            <i     [ngClass]="{ 'font-c-white': menuItem.opcionTurno && optionIDSelected==menuItem.id}"   class="material-icons">{{menuItem.icono}}</i>
+            <p     [ngClass]="{ 'font-c-white': menuItem.opcionTurno && optionIDSelected==menuItem.id}"    >{{menuItem.titulo}} </p>
+          </a>
+          <div *ngIf="menuItem.padre && menuItem.opcionTurno && optionIDSelected==menuItem.id " id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded" *ngFor="let son of menuItem.lista_opciones">
+                <a class="collapse-item hover-son" style="cursor: pointer;" (click)="goToChildPage(son.ruta)" >{{son.titulo}} </a><br>
+            </div>
+          </div> 
+        </li>
+    </ul>
+</div>

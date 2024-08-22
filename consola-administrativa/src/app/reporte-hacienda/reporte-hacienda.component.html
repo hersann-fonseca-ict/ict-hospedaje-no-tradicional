@@ -1,0 +1,96 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-success">
+                        <p class="card-category"> Perfiles creados por los clientes en la sección p&uacute;blica que se
+                            encuentran aprobados</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive" id="tblPerfiles">
+                            <table class="table" datatable [dtOptions]="dtOptions">
+                                <thead>
+                                    <tr>
+                                        <th>Tipo Perfil</th>
+                                        <th>Tipo Identificaci&oacute;n</th>
+                                        <th>Identificaci&oacute;n</th>
+                                        <th>Nombre</th>
+                                        <th>C&oacute;digo</th>
+                                        <th>Provincia del inmueble</th>
+                                        <th>Cantón del inmueble</th>
+                                        <th>Distrito del inmueble</th>
+                                        <th>Dirección del inmueble</th>
+                                        <th>Tel&eacute;fono</th>
+                                        <th>Correo para notificaciones</th>                                        
+                                        <th>Sitio web</th>
+                                        <th>Fecha aprobaci&oacute;n</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let perfiles of listaPerfiles">
+                                        <td>
+                                            {{ perfiles.perfilNombre === "HNT" ? "Inmueble" : "Empresa" }}
+                                          </td>
+                                          <td>
+                                            {{ perfiles.tipoIdentificacion }}
+                                          </td>
+                                          <td>{{ perfiles.identificacion }}</td>
+                                          <td>
+                                            {{
+                                            perfiles.nombre +
+                                            " " +
+                                            perfiles.primerApellido +
+                                            " " +
+                                            perfiles.segundoApellido
+                                            }}
+                                          </td>
+                                          <td>
+                                            {{ perfiles.codigo ? perfiles.codigo : "" }}
+                                          </td>
+                                          <td>
+                                            {{ perfiles.provincia }}
+                                          </td>
+                                          <td>
+                                            {{ perfiles.canton }}
+                                          </td>
+                                          <td>
+                                            {{ perfiles.distrito }}
+                                          </td>
+                                          <td>
+                                            {{ perfiles.direccion }}
+                                          </td>
+                                          <td>
+                                            {{ perfiles.telefono }}
+                                          </td>
+                                          <td>
+                                            {{ perfiles.correo }}
+                                          </td>
+                                          
+                                          <td>
+                                            {{ perfiles.url }}
+                                          </td>
+                                          <td>
+                                            {{
+                                            perfiles.fechaAprobacion ? perfiles.fechaAprobacion : ""
+                                            }}
+                                          </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <br>
+                        <a style="cursor: pointer" (click)="exportarHNT()">
+                            <label>Exportar HNT</label>
+                            <mat-icon style="margin-left: 0.5em; color: #46A34A;"> cloud_download</mat-icon>
+                        </a>
+                        <a style="cursor: pointer; margin-left: 2em;" (click)="exportarEi()">
+                          <label>Exportar Empresa comercializadora</label>
+                          <mat-icon style="margin-left: 0.5em; color: #46A34A;"> cloud_download</mat-icon>
+                      </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

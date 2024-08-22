@@ -1,0 +1,52 @@
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12" >
+              <div class="card" >
+                  <div class="card-header card-header-success">
+                      <p class="card-category"> Usuarios que tienen acceso al sistema</p>
+                  </div>
+                  <div class="card-body">
+                      <div class="table-responsive" id="tblRoles">
+                        <table class="table" datatable [dtOptions]="dtOptions">
+                            <thead>
+                              <tr>
+                                <th>ID</th>
+                                <th>Nombre Usuario</th>
+                                <th>Correo</th>
+                                <th>Estado</th>
+                                <th *ngIf="this.roles.includes('ADMIN') || this.roles.includes('MODIFICAR-USUARIO')">Acciones</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let usuario of listaUsuarios">
+                                <td>{{ usuario.id }}</td>
+                                <td>{{ usuario.nombreUsuario }}</td>
+                                <td>{{ usuario.correo }}</td>
+                                <td *ngIf="usuario.activo">
+                                  Activo
+                              </td>
+                              <td *ngIf="!usuario.activo">
+                                  Inactivo
+                              </td>
+                              <td class="text-primary" *ngIf="this.roles.includes('ADMIN') || this.roles.includes('MODIFICAR-USUARIO')">
+                                    <button mat-icon-button color="primary" (click)="modificarUsuario(usuario)">
+                                        <mat-icon title="Modificar" class="mat-12">system_update</mat-icon>
+                                    </button>
+                                   <button mat-icon-button color="accent" (click)="activarInactivar(usuario, !usuario.activo)">
+                                       <mat-icon  title="Inactivar" class="mat-12">delete</mat-icon>
+                                  </button>
+                              </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <div *ngIf="this.roles.includes('ADMIN') || this.roles.includes('CREAR-USUARIO')">
+                            <button mat-raised-button type="submit" (click)="crearNuevoUsuario()" class="btn btn-success pull-left">Agregar</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

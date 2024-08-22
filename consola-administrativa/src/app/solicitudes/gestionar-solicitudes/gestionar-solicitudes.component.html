@@ -1,0 +1,161 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-success">
+                        <p class="card-category">Detalles de Solicitud</p>
+                    </div>
+                    <div class="card-body">
+                        <form #solicitudeFom="ngForm">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Id" disabled name="id"
+                                            value={{detallesSolicitud.id}}>
+
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-2">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Tipo de Servicio" disabled name="tipoServicio"
+                                            value={{nombreTipoServivio}}>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4" *ngIf="detallesSolicitud.nombreComercial != 'no aplica'">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Nombre Comercial" name="nombreComercial"
+                                            value={{detallesSolicitud.nombreComercial}} disabled>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4" *ngIf="detallesSolicitud.identificacionComercial != 0">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Identificación Comercial"
+                                            value={{detallesSolicitud.identificacionComercial}} disabled>
+                                    </mat-form-field>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput [placeholder]="detallesSolicitud.identificacionComercial != 0 ? 'Identificación Representante': 'Identificación Persona Física'" type="text"
+                                            value={{detallesSolicitud.identificacionRepresentante}} disabled>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput [placeholder]="detallesSolicitud.identificacionComercial != 0 ? 'Nombre Representante': 'Nombre Persona Física'" type="text"
+                                            value={{detallesSolicitud.nombreRepresentante}} disabled>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput [placeholder]="detallesSolicitud.identificacionComercial != 0 ? 'Apellidos Representante': 'Apellidos Persona Física'" type="text"
+                                            value="{{detallesSolicitud.apellido1Representante +' ' + detallesSolicitud.apellido2Representante}}"
+                                            disabled>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Código Tipo Servicio" type="text"
+                                            value={{detallesSolicitud.codigoTipoServicio}} disabled>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Teléfono" type="text"
+                                            value={{detallesSolicitud.telefono}} disabled>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Provincia" type="text"
+                                            value={{detallesSolicitud.provincia}} disabled>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Distrito" type="text"
+                                            value={{detallesSolicitud.distrito}} disabled>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Cantón" type="text"
+                                            value={{detallesSolicitud.canton}} disabled>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    
+                                    <mat-form-field class="example-full-width">
+                                        <textarea placeholder="Afectación" matInput value={{detallesSolicitud.observaciones}}
+                                            disabled></textarea>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-12" *ngIf='listaArchivos != null'>
+                                    <label>Documentos</label>
+                                        <ul  style="font-size: 16px;" *ngFor="let archivo of listaArchivos">
+                                            <a  href="javascript:void(0);" (click)="descargarArchivo(archivo)">{{archivo}}</a>
+                                          </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field   class="example-full-width">
+                                        <mat-select placeholder="Estado Solicitud"  name="beneficiosSelect" [(ngModel)]="estadoSeleccionado">
+                                            <mat-option (click)="clickedOption()" value="Aprobado">Aprobado</mat-option>
+                                            <mat-option (click)="clickedOption()" value="Rechazado">Rechazado
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field  class="example-full-width">
+                                        <mat-select placeholder="Beneficios" name="seleccionBeneficios"  [required]="estadoSeleccionado=='Aprobado'"  #seleccionBeneficios="ngModel" [(ngModel)]="beneficiosSelecionados"
+                                            multiple
+                                            [disabled]="estadoSeleccionado=='Rechazado' || estadoSeleccionado=='' ">
+                                            <mat-option *ngFor="let beneficio of listaBeneficios"
+                                                [value]="beneficio.id">{{beneficio.nombreBeneficio}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <div *ngIf="seleccionBeneficios.invalid && (seleccionBeneficios.dirty || seleccionBeneficios.touched)"
+                                    class="alert alert-danger">
+                                    <div *ngIf="seleccionBeneficios.errors.required">
+                                       Necesita seleccionar almenos un beneficio
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12" *ngIf="estadoSeleccionado=='Rechazado'" >
+                                  
+                                    <mat-form-field class="example-full-width">
+                                        <textarea placeholder="Justificación" matInput name="justificacion"  [required]="estadoSeleccionado=='Rechazado'"  #justificacionModel="ngModel" [(ngModel)]="justificacion" ></textarea>
+                                    </mat-form-field>
+                                    <div *ngIf="justificacionModel.invalid && (justificacionModel.dirty || justificacionModel.touched)"
+                                    class="alert alert-danger">
+                                    <div *ngIf="justificacionModel.errors.required">
+                                       Necesita agregar la justificacón para rechazar la solicitud
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                            <button  [disabled]="solicitudeFom.form.invalid" mat-raised-button type="submit" (click)="gestionarSolicitud()"
+                                class="btn btn-success pull-left">Guardar</button>
+
+                            <button mat-raised-button type="submit" (click)="regresarTable()"
+                                class="btn btn-danger pull-right">Regresar</button>
+
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

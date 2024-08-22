@@ -1,0 +1,15 @@
+.mat-column-identificacionRepresentante {
+    flex: 0 0 10%;
+}
+.mat-column-identificacionComercial {
+    flex: 0 0 10%;
+}
+.mat-column-borrar {
+    flex: 0 0 5%;
+}
+.mat-column-actualizar {
+    flex: 0 0 6%;
+}
+.mat-column-detalles {
+    flex: 0 0 5%;
+}

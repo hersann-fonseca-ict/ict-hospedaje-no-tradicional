@@ -1,0 +1,42 @@
+.mat-expansion-panel:not([class*=mat-elevation-z]){
+    box-shadow: none!important;
+}
+.mat-expansion-panel-header-custom{
+    margin-left: 0.8rem;
+    margin-right: 0.8rem;
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
+}
+.mat-expansion-panel{
+    background: transparent;
+}
+::ng-deep .mat-expansion-panel-body{
+    text-align: center!important;
+}
+
+.expansion-panel-click{
+    background-color: #f44336!important;
+    box-shadow: 0 4px 20px 0px rgb(0 0 0 / 14%), 0 7px 10px -5px rgb(244 67 54 / 40%)!important;
+}
+
+.font-c-white{
+    color: #fff!important;
+}
+
+.expansion-panel-inactive{
+    background-color: transparent!important;
+    box-shadow: none!important;
+}
+
+.expansion-panel-inactive-color-icon{
+  color:   #a9afbb!important;
+}
+.expansion-panel-inactive-color-font{
+    color:   #3C4858!important;
+  }
+
+  .hover-son:hover{
+    background-color: lightgray;
+  }
+
+

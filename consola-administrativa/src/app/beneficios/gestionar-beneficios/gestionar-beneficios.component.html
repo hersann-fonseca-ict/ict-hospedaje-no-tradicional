@@ -1,0 +1,45 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+<div class="card"  >
+    <div class="card-header card-header-success">
+        <p class="card-category">{{tituloText}}Beneficio</p>
+    </div>
+    <br>
+    <div class="card-body">
+
+      <br>
+        <form  #beneficioForm="ngForm">
+            <div class="row">
+                <div class="col-md-6">
+                  <mat-form-field class="example-full-width">
+                      <input name="nombreBeneficio" matInput [(ngModel)]="nombreBeneficio" placeholder="Nombre" required #nomBeneficio="ngModel">
+                    </mat-form-field>
+                    <div *ngIf="nomBeneficio.invalid && (nomBeneficio.dirty || nomBeneficio.touched)"
+                    class="alert alert-danger">
+                    <div *ngIf="nomBeneficio.errors.required">
+                       El nombre del beneficio es requerido
+                    </div>
+                </div>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field class="example-full-width">
+                    <input name="estado" matInput placeholder="Estado" type="text" [(ngModel)]="activoText" [value]="activoText" disabled>
+                  </mat-form-field>
+                </div>
+              
+            </div>
+  
+            <button [disabled]="beneficioForm.form.invalid" mat-raised-button type="submit" (click)="guardarBeneficio()" class="btn btn-success pull-left">Guardar</button>
+            <button mat-raised-button type="submit" (click)="cancelarCrearBeneficio()"  class="btn btn-danger pull-right">Cancelar</button>
+           
+            <div class="clearfix"></div>
+        </form>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+

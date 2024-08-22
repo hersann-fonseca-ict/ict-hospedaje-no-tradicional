@@ -1,0 +1,75 @@
+<app-loading ></app-loading>
+<div *ngIf="!estaAutenticado && !isLoggedIn()" class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="">
+              <div class="mb-2"
+              width="300">
+              <source class="img-login">
+            </div>
+              <div style="display: none;" class="form-signin text-center">
+                <div class="mb-2"
+                  width="300">
+                  <source class="img-login">
+                </div>
+                <br/>
+                <label for="inputEmail" class="sr-only"
+                  >Nombre de usuario</label >
+                <input
+                  type="text"
+                  #nombreUsuario
+                  class="form-control text-center"
+                  placeholder="Nombre de usuario"
+                  required=""
+                  autofocus=""
+                />
+                <br/>
+                <label for="inputPassword" class="sr-only">Clave</label>
+                <input
+                  type="password"
+                  #clave
+                  class="form-control text-center"
+                  placeholder="Clave"
+                  required=""
+                />
+                </div>
+                <br/>
+                <button (click)="login()" class="btn btn-lg btn-success btn-block" type="submit">
+                  Ingresar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div *ngIf="estaAutenticado &&  isLoggedIn() " class="wrapper">
+  <app-loading ></app-loading>
+  <div
+    class="sidebar"
+    data-color="danger"
+    data-background-color="white"
+    data-image="assets/img/sidebar-1.jpg"
+  >
+    <app-sidebar></app-sidebar>
+    <div
+      class="sidebar-background"
+    >
+    <source class=" sidebar-background img-sidebar-background" />
+  
+  </div>
+  </div>
+  <div class="main-panel">
+    <app-navbar></app-navbar>
+    <router-outlet></router-outlet>
+  
+      <app-footer></app-footer>
+
+  </div>
+</div>
+

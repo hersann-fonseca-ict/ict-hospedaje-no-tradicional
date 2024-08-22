@@ -1,0 +1,59 @@
+<div class="main-content">
+    <div #documento id="documento" class="container-fluid">
+ 
+
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-success">
+                        <p class="card-category">Reporte de Usuarios Inscritos</p>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-6 pl-5">
+                            <label>Usuarios registrados: {{CantidadPerfiles}} </label>
+                        </div>
+                        <div class="col-md-6 pl-5">
+                            <label>Usuarios registrados con inmuebles asociados: {{CantidadPerfilesInmuebles}}</label>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6 pl-5 d-block m-auto">
+                            <label class="d-flex">Fecha de corte: {{fecha | date:'dd/MM/yyyy'}} <mat-icon aria-hidden="false"
+                                    aria-label="Example home icon">calendar_today</mat-icon> </label>
+                        </div>
+                        <div class="col-md-6 pl-5">
+
+                            <button mat-raised-button (click)="PDFExport()" class="btn btn-success pull-left">Exportar
+                                PDF</button>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-success">
+                        <p class="card-category"> Gr&aacute;ficos </p>
+                    </div>
+                    <label class="text-center lbl-cargando mt-3"  *ngIf="cargandoGraficos">Generando gráficos...</label>
+                    <div class="card-body">
+
+
+
+                        <div id="Chart"></div>
+
+                        <div id="Chart3"></div>
+                        <div id="Chart2"></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

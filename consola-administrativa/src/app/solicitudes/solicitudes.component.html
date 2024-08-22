@@ -1,0 +1,54 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card" >
+          <div class="card-header card-header-success">
+            <p class="card-category"> Solicitudes enviadas por los clientes en la sección publica</p>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive" id="tblSolicitudes">
+              <table class="table" datatable [dtOptions]="dtOptions">
+                <thead>
+                  <tr>
+                    <th >ID</th>
+                    <th >Tipo Identificación</th>
+                    <th>Identificación</th>
+                    <th>Nombre</th>
+
+                    <th>Estado Solicitud</th>
+                    <th>Código</th>
+                    <th *ngIf="this.roles.includes('ADMIN') || this.roles.includes('MODIFICAR-SOLICITUD')">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let solicitud of solicitudes">
+                    <td>{{ solicitud.id }}</td>
+                    <td>{{solicitud.nombreComercial == 'no aplica' ? 'Física' : 'Jurídica'}}</td>
+                    {{solicitud.nombreComercial == 'no aplica' ?   setTipoFisica(solicitud.identificacionRepresentante) : setTipoFisica('') }}
+                    <td><input type="text" style='outline: none; border-width:0px; border:none;' readonly='true'  [textMask] = "mask ? {mask: mascara} : {mask: false}" 
+                      [(ngModel)]="solicitud.identificacionComercial == 0 ? solicitud.identificacionRepresentante  : solicitud.identificacionComercial" /></td> 
+                    
+                    <td>{{ solicitud.nombreComercial == 'no aplica' ? solicitud.nombreRepresentante+' '+ solicitud.apellido1Representante +' '+solicitud.apellido2Representante : solicitud.nombreComercial }}</td>
+                  <td>{{ solicitud.estadoSolicitud }}</td>
+                    <td>{{ solicitud.codigoTipoServicio == null ? 'no requiere código' :   solicitud.codigoTipoServicio}}</td>
+                    <td class="text-primary" *ngIf="this.roles.includes('ADMIN') || this.roles.includes('MODIFICAR-SOLICITUD')">
+                      <button mat-icon-button color="primary" (click)="redirectToDetails(solicitud.id)">
+                        <mat-icon class="mat-12">reorder</mat-icon>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <br>
+            <a style="cursor: pointer" (click)="exportexcel()">
+              <label>Exportar</label>
+              <mat-icon style="margin-left: 0.5em; color: #46A34A;"> cloud_download</mat-icon>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

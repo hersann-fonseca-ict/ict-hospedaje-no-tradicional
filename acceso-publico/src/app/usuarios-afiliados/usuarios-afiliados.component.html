@@ -1,0 +1,59 @@
+<div class="text-center">
+  <h1 class="h4 text-gray-900 mb-4">Empresas inscritas</h1>
+  <hr>
+</div>
+<div class="table-responsive" id="tbUsuarios">
+  <table class="table" datatable [dtOptions]="dtOptions">
+    <thead>
+      <tr>
+        <th>Nombre o Razón Social</th>
+        <th>Identificación</th>
+        <th>Domicilio legal empresa</th>
+        <th>Nombre representante legal</th>
+        <th>Identificación representante legal</th>
+        <th>Provincia inmueble</th>
+        <th>Cantón inmueble</th>
+        <th>Distrito inmueble</th>
+        <th>Número habitaciones</th>
+        <th>Número Maximo de huéspedes</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let establecimiento of listaEstablecimientos">
+
+        <td>
+          {{establecimiento.nombre}}
+        </td>
+        <td>
+          {{establecimiento.identificacion}}
+        </td>
+        <td>
+          {{establecimiento.domicilioLegal}}
+        </td>
+        <td>
+          {{establecimiento.nombreRepresentante}}
+        </td>
+        <td>
+          {{establecimiento.identificacionRepresentante}}
+        </td>
+        <td>
+          {{establecimiento.provincia}}
+        </td>
+        <td>
+          {{establecimiento.canton}}
+        </td>
+        <td>
+          {{establecimiento.distrito}}
+        </td>
+        <td>
+          {{establecimiento.numHab}}
+        </td>
+        <td>
+          {{establecimiento.numMaxHuespedes}}
+        </td>
+        
+      </tr>
+    </tbody>
+  </table>
+</div>

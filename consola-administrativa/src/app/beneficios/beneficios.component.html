@@ -1,0 +1,53 @@
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="card" >
+                  <div class="card-header card-header-success">
+                      <p class="card-category"> Lista de beneficios</p>
+                  </div>
+                  <div class="card-body">
+                      <div class="table-responsive">
+                      <table class="table" datatable [dtOptions]="dtOptions" >                        
+                            <thead>
+                              <tr>
+                                <th>ID</th>
+                                <th>Nombre Beneficio</th>
+                                <th>Fecha Creación</th>
+                                <th>Estado</th>
+                                <th *ngIf="this.roles.includes('ADMIN') || this.roles.includes('MODIFICAR-BENEFICIO')">Acciones</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let beneficios of beneficios">
+                                <td>{{ beneficios.id }}</td>
+                                <td>{{ beneficios.nombreBeneficio }}</td>
+                                <td>{{ beneficios.fechaCreacion }}</td>
+                                <td *ngIf="beneficios.activo">
+                                  Activo
+                              </td>
+                              <td *ngIf="!beneficios.activo">
+                                  Inactivo
+                              </td>
+                              <td class="text-primary"  *ngIf="this.roles.includes('ADMIN') || this.roles.includes('MODIFICAR-BENEFICIO')">
+                                <button mat-icon-button color="primary" (click)="modificarBeneficio(beneficios)">
+                                    <mat-icon title="Modificar" class="mat-12">system_update</mat-icon>
+                                </button>
+                               <button mat-icon-button color="accent" (click)="activarInactivar(beneficios, !beneficios.activo)">
+                                   <mat-icon  title="Inactivar" class="mat-12">delete</mat-icon>
+                              </button>
+                             </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <div *ngIf="this.roles.includes('ADMIN') || this.roles.includes('CREAR-BENEFICIO')">
+                            <button  mat-raised-button type="submit" (click)="crearNuevoBeneficio()" class="btn btn-success pull-left">Agregar</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+

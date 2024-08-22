@@ -1,0 +1,80 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card" *ngIf="!crearRol">
+                    <div class="card-header card-header-success">
+                        <p class="card-category"> Roles del sistema</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table" datatable [dtOptions]="dtOptions"
+                        [dtTrigger]="dtTrigger">
+                            <thead>
+                              <tr>
+                                <th>ID</th>
+                                <th>Código</th>
+                                <th>Nombre</th>
+                                <th>Fecha Creación</th>
+                                <th>Estado</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let rol of listaRoles">
+                                <td>{{ rol.id }}</td>
+                                <td>{{ rol.codigo }}</td>
+                                <td>{{ rol.nombre }}</td>
+                                <td>{{ rol.fechaCreacion }}</td>
+                                <td *ngIf="rol.activo">
+                                  Activo
+                              </td>
+                              <td *ngIf="!rol.activo">
+                                  Inactivo
+                              </td>
+                              </tr>
+                              <tr *ngIf="listaRoles.length == 0">
+                                <td colspan="3" class="no-data-available">No hay datos disponibles</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                    <!--
+                       <button mat-raised-button type="submit" (click)="crearNuevoRol()" class="btn btn-success pull-left">Agregar</button>
+
+                    -->     
+                        </div>
+                    </div>
+                </div>
+                <div class="card"  *ngIf="crearRol">
+                    <div class="card-header card-header-success">
+                        <p class="card-category">Nuevo Rol</p>
+                    </div>
+                    <br>
+                    <div class="card-body">
+                    
+                        <form>
+                            <div class="row">
+                                <div class="col-md-6">
+                                  <mat-form-field class="example-full-width">
+                                      <input matInput placeholder="Código" required>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field class="example-full-width">
+                                      <input matInput placeholder="Nombre"   required>
+                                    </mat-form-field>
+                                </div>
+                                
+                            </div>
+                            <button mat-raised-button type="submit" class="btn btn-success pull-left">Guardar</button>
+                            <button mat-raised-button type="submit" (click)="cancelarCrearRol()"  class="btn btn-danger pull-right">Cancelar</button>
+
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+  </div>
+  

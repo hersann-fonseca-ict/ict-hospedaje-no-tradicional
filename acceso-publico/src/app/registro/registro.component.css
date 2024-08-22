@@ -1,0 +1,100 @@
+.has-error input[type="text"], .has-error input[type="email"], .has-error select {
+    border: 1px solid #a94442;
+}
+.disabledDiv {
+    pointer-events: none;
+    background-color: #a09f9f44 !important;
+    }
+
+
+ .dropdown-forma{
+    display: block;
+    width: 100%;
+    height: calc(1.5em + 0.75rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #6e707e;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #d1d3e2;
+    border-radius: 0.35rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+ }   
+ 
+.dropdown-submenu {
+    position: relative; 
+}
+.dropdown-menu li {
+    padding: 2.5px;
+    width: 100%;
+    font-size: 0.9rem;
+}
+.dropdown-submenu li {
+    padding: 2.5px;
+    width: 100%;
+    font-size: 0.9rem;
+}
+.dropdown-menu li:hover {
+    cursor: pointer; 
+    background-color: #1c94fc;
+    color: #fff;
+} 
+
+.dropdown-submenu li:hover {
+    cursor: pointer; 
+    background-color: #1c94fc;
+    color: #fff;
+} 
+
+.dropdown-submenu>.dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -6px;
+    margin-left: -1px;
+    -webkit-border-radius: 0 6px 6px 6px;
+    -moz-border-radius: 0 6px 6px;
+    border-radius: 0 6px 6px 6px;
+}
+
+.dropdown-submenu:hover>.dropdown-menu {
+    display: block; 
+} 
+
+.dropdown-submenu>a:after {
+    display: block;
+    content: " ";
+    float: right;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 7px 0 7px 7px;
+    border-left-color: #1c94fc;
+    margin-top: 5px;
+    margin-right: -10px;
+}
+
+.dropdown-submenu:hover>a:after {
+    border-left-color: #fff;
+}
+
+.dropdown-submenu.pull-left {
+    float: none;
+}
+
+.dropdown-submenu.pull-left>.dropdown-menu {
+    left: -100%;
+    margin-left: 10px;
+    -webkit-border-radius: 6px 0 6px 6px;
+    -moz-border-radius: 6px 0 6px 6px;
+    border-radius: 6px 0 6px 6px;
+}
+
+.dropdown-menu>li{
+    display: flex;
+}
+.dropdown-menu>li>a{
+    flex: 1;
+} 

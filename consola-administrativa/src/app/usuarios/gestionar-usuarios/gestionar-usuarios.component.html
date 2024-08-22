@@ -1,0 +1,110 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card" *ngIf="crearUsuario">
+                    <div class="card-header card-header-success">
+                        <p class="card-category">{{tituloTexto}} Usuario</p>
+                    </div>
+                    <br>
+                    <div class="card-body">
+                        <div class=" card-profile">
+                            <div class="card-avatar img-user-ges">
+                                <a href="javascript:void(0)">
+                                    <source class="img img-user" />
+                                </a>
+                            </div>
+                        </div>
+                        <br>
+                        <form #usuarioForm="ngForm">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput name="nombreUsuario" [(ngModel)]="nombreUsuario"
+                                            placeholder="Nombre Usuario" required #usuario="ngModel">
+                                    </mat-form-field>
+                                    <div *ngIf="usuario.invalid && (usuario.dirty || usuario.touched)"
+                                        class="alert alert-danger">
+                                        <div *ngIf="usuario.errors.required">
+                                           El nombre de usuario es requerido
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" *ngIf="!modificar">
+                                    <mat-form-field class="example-full-width">
+                                        <input name="clave" matInput placeholder="Clave"
+                                            [type]="hide ? 'text': 'password'  " required [(ngModel)]="clave"
+                                            #claveUs="ngModel">
+                                        <mat-icon matSuffix (click)="hide = !hide">
+                                            {{hide ?  'visibility' :'visibility_off' }}</mat-icon>
+                                    </mat-form-field>
+                                    <div *ngIf="claveUs.invalid && (claveUs.dirty || claveUs.touched)"
+                                    class="alert alert-danger">
+                                    <div *ngIf="claveUs.errors.required">
+                                       La clave es requerida
+                                    </div>
+                                </div>
+                                </div>
+                                <div class="col-md-6" *ngIf="!cambioContrasena">
+                                    <mat-form-field class="example-full-width">
+                                        <input name="correo" matInput placeholder="Correo" type="email" required
+                                            [(ngModel)]="correo" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                                            #correoUsuario="ngModel">
+                                    </mat-form-field>
+                                    <div *ngIf="correoUsuario.invalid && (correoUsuario.dirty || correoUsuario.touched)"
+                                    class="alert alert-danger">
+                                    <div *ngIf="correoUsuario.errors.required">
+                                       El correo es requerido
+                                    </div>
+                                    <div *ngIf="correoUsuario.errors.pattern">
+                                       No es un correo valido
+                                     </div>
+                                </div>
+                                </div>
+                                <div class="col-md-6" *ngIf="!cambioContrasena">
+                                    <mat-form-field class="example-full-width">
+                                        <input name="estado" matInput placeholder="Estado" type="text" value="Activo"
+                                            disabled>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6" *ngIf="!cambioContrasena">
+                                    <mat-form-field class="example-full-width">
+                                        <mat-select placeholder="Roles" name="seleccionRoles"
+                                            [(ngModel)]="rolesSelecionados" multiple #rolesUsuario="ngModel" required>
+                                            <mat-option *ngFor="let rol of listaRoles" [value]="rol.id">{{rol.nombre}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <div *ngIf="rolesUsuario.invalid && (rolesUsuario.dirty || rolesUsuario.touched)"
+                                    class="alert alert-danger">
+                                    <div *ngIf="rolesUsuario.errors.required">
+                                       Debe seleccionar al menos un rol
+                                    </div>
+                                </div>
+                                    
+                                </div>
+                                <br>
+
+                            </div>
+                            <div *ngIf="valido" class="alert alert-danger">
+                                <div>
+                                    Todos los campos son requeridos.
+                                </div>
+                            </div>
+                            <div class="row">
+
+                            </div>
+                            <button mat-raised-button type="submit"
+                                (click)="!modificar ? gestionarUsuarios() :guardarModificarUsuario()"
+                                class="btn btn-success pull-left" [disabled]="usuarioForm.form.invalid">Guardar</button>
+                            <button mat-raised-button type="submit" (click)="cancelarCrearUsuario()"
+                                class="btn btn-danger pull-right">Cancelar</button>
+
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

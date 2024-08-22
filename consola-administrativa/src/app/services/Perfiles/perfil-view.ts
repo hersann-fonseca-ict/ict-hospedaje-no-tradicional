@@ -1,0 +1,34 @@
+export class PerfilView{
+    public id: number;
+    public perfil: number;
+    public perfilNombre: string;
+    public tipoServicio: number;
+    public tipoServicioNombre: string;
+    public tipoIdentificacion : string;
+    public codigo : string;
+    public nombre : string;
+    public primerApellido: string;
+    public segundoApellido: string;
+    public provincia: string;
+    public canton: string;
+    public distrito: string;
+    public direccion: string;
+    public correo: string;
+    public telefono: string;
+    public telefonoEstablecimiento: string;
+    public url: string;
+    public aprobado: boolean;
+    public desafiliado: boolean;
+    public pendienteDesafiliar: boolean;
+    public rechazado: boolean;
+    public fechaAprobacion: Date;
+    public fechaDesafiliacion: Date;
+    public fechaRechazo: Date;
+    public motivoDesafiliacion: string;
+    public motivoRechazo: string;
+    public empresa: number;
+    public inmueble: number;
+    public analista: number;
+    public jefe: number;
+    public editable: boolean;
+}

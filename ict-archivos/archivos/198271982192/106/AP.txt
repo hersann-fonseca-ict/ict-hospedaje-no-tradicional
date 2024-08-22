@@ -1,0 +1,15 @@
+::acceso publico
+cd acceso-publico
+call ng build --prod
+cd ..
+cd dist
+mkdir acceso-publico
+cd ..
+cd acceso-publico
+cd dist
+cd acceso-publico
+xcopy . ..\..\..\dist\acceso-publico\.
+cd ..
+cd ..
+copy Dockerfile ..\dist\acceso-publico\Dockerfile
+cd ..

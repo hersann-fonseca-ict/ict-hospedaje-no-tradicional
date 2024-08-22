@@ -1,0 +1,47 @@
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="card" *ngIf="!crearTipo">
+                  <div class="card-header card-header-success">
+                      <p class="card-category"> Tipo de servicio asignado a los perfiles</p>
+                  </div>
+                  <div class="card-body">
+                      <div class="table-responsive">
+                        <table class="table" datatable [dtOptions]="dtOptions"
+                        [dtTrigger]="dtTrigger">
+                            <thead>
+                              <tr>
+                                <th>Id</th>
+                                <th>Nombre</th>
+                                <th>Fecha de creación</th>
+                                <th>Necesita Código</th>
+                                <th *ngIf="this.roles.includes('ADMIN') || this.roles.includes('MODIFICAR-TIPO-PERFIL')">Acciones</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let tipoServicio of listaTipoServicio">
+                              <td>{{tipoServicio.id}} </td>
+                              <td>{{tipoServicio.nombre}}</td>
+                              <td>{{tipoServicio.fechaCreacion}}</td>
+                              <td *ngIf="tipoServicio.necesitaCodigo">Si</td>
+                              <td *ngIf="!tipoServicio.necesitaCodigo">No</td>
+                              <td class="text-primary" *ngIf="this.roles.includes('ADMIN') || this.roles.includes('MODIFICAR-TIPO-PERFIL')">
+                                <button mat-icon-button color="primary" (click)="modificartipoServicio(tipoServicio)">
+                                  <mat-icon title="Modificar" class="mat-12">system_update</mat-icon>
+                              </button>
+                              
+                              </td>
+                            </tbody>
+                          </table>
+                          <div *ngIf="this.roles.includes('ADMIN') || this.roles.includes('CREAR-TIPO-PERFIL')">
+                            <button mat-raised-button type="submit" (click)="crearNuevoTipoServicio()" class="btn btn-success pull-left">Agregar</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+           
+          </div>
+      </div>
+  </div>
+</div>

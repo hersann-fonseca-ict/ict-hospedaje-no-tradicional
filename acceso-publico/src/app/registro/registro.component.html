@@ -1,0 +1,1060 @@
+<div class="text-center">
+  <h1 class="h4 text-gray-900 mb-4">Plataforma de Registro</h1>
+  <hr>
+</div>
+<section *ngIf="perfil && registerForm" class="signup-step-container">
+  <mat-horizontal-stepper [linear]="(perfil.personaFisica || perfil.personaJuridica) && servicioSeleccionado == 1" #stepper color="primary">
+    <!-- change default 'edit' icon -->
+    <ng-template matStepperIcon="edit">
+      <mat-icon style="color: #72be44;">face</mat-icon>
+    </ng-template>
+    <!-- changed step icons -->
+    <ng-template matStepperIcon="personal">
+      <mat-icon style="color: #72be44;">account_box</mat-icon>
+    </ng-template>
+    <!-- changed step icons -->
+    <ng-template matStepperIcon="direccion">
+      <mat-icon style="color: #72be44;">map</mat-icon>
+    </ng-template>
+    <!-- changed step icons -->
+    <ng-template matStepperIcon="actividades">
+      <mat-icon style="color: #72be44;">business</mat-icon>
+    </ng-template>
+    <!-- changed step icons -->
+    <ng-template matStepperIcon="resumen">
+      <mat-icon style="color: #72be44;">verified_user</mat-icon>
+    </ng-template>
+    <div>
+      <!--  <mat-step state="personal" class="round-tab fa fa-user">-->
+      <mat-step state="personal" [stepControl]="registerForm" [optional]="false" class="round-tab fa fa-user pt-5">
+        <h4 class="text-center">Información de Registro</h4>
+        <form [formGroup]="registerForm" (ngSubmit)="guardarPerfil()">
+          <div class="form-group row">
+            <div class="col-sm-6 mb-6 mb-sm-0">
+              <label class="control-label">Seleccione el tipo de servicio</label>
+              <select [ngClass]="{ 'is-invalid': f.tipoServicio?.errors }" formControlName="tipoServicio"
+                class="form-control" (change)="clickedTipoServicios($event.target.value)">
+                <option *ngFor="let tipoSer of tipoServicios" [value]="tipoSer.id">{{tipoSer.nombre}}</option>
+              </select>
+              <div *ngIf="f.tipoServicio?.errors" class="invalid-feedback">
+                Debe seleccionar un tipo de servicio
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="perfil.empresa && servicioSeleccionado == 2">
+
+            <div class="form-group row">
+              <div class="col-sm-6 mb-6 mb-sm-0">
+                <label class="control-label">Tipo Identificación:</label>
+                <select  [ngClass]="{ 'is-invalid':f.comboIdentificacionEm?.errors}" formControlName="comboIdentificacionEm" class="form-control"
+                  (change)="clickedTipoIDXEmpresa($event.target.value)">
+                  <option *ngFor="let tipoId of tipoIdentificaciones" [value]="tipoId">{{tipoId}}</option>
+                </select>
+              </div>
+
+              <div class="col-sm-6 mb-6 mb-sm-0"  *ngIf="comboIdentificacionE == tipoIdentificaciones[1]" > 
+                <label class="control-label">Cédula jurídica:</label>
+                <input [ngClass]="{ 'is-invalid':f.identificacion.errors}" type="text"
+                  formControlName="identificacion" [maxlength]="identificacionMax" class="form-control"
+                  [placeholder]="'Cédula Jurídica'">
+                <div *ngIf="f.identificacion?.errors" class="invalid-feedback">
+                  <div *ngIf="f.identificacion?.errors?.required || f.identificacion?.hasError('whitespace')">
+                    La cédula jurídica es requerida
+                  </div>
+                  <div *ngIf="f.identificacion?.errors?.minlength">
+                    La cédula jurídica debe ser
+                    {{cantidadIdentificacionMensaje}}
+                  </div>
+                  <div *ngIf="f.identificacion?.errors?.pattern">
+                    El tipo de identificación jurídica solo debe contener
+                    números
+                    {{identificacionMax === 9 ? '' : 'y letras, sin espacios ni guiones'}} e iniciar con
+                    un valor diferente de 0
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm-6 mb-6 mb-sm-0">
+                <label class="control-label">Nombre raz&oacute;n social de la empresa</label>
+                <input [ngClass]="{ 'is-invalid': f.razonSocial?.errors }" formControlName="razonSocial"
+                  class="form-control" maxlength="80" type="text">
+                <div *ngIf="f.razonSocial?.errors" class="invalid-feedback">
+                  El nombre de la raz&oacute;n social es requerida
+                </div>
+              </div>
+            </div>
+            <label class="control-label">Domicilio legal de la empresa:</label>
+            <div class="form-group row">
+              <div class="col-sm-3 mb-3 mb-sm-0">
+                <label>Pa&iacute;s</label>
+                <input [ngClass]="{ 'is-invalid': f.pais?.errors }" maxlength="80" formControlName="pais" type="text"
+                  class="form-control">
+                <div *ngIf="f.pais?.errors" class="invalid-feedback">
+                  El pa&iacute;s es requerido
+                </div>
+              </div>
+              <div class="col-sm-3 mb-3 mb-sm-0">
+                <label>Estado/Regi&oacute;n</label>
+                <input [ngClass]="{ 'is-invalid': f.estado?.errors }" formControlName="estado" type="text"
+                  class="form-control" maxlength="80">
+                <div *ngIf="f.estado?.errors" class="invalid-feedback">
+                  El Estado/Regi&oacute;n es requerido
+                </div>
+              </div>
+              <div class="col-sm-3 mb-3 mb-sm-0">
+                <label>Ciudad</label>
+                <input [ngClass]="{ 'is-invalid': f.ciudad?.errors }" formControlName="ciudad" type="text"
+                  class="form-control" maxlength="80">
+                <div *ngIf="f.ciudad?.errors" class="invalid-feedback">
+                  La ciudad es requerida
+                </div>
+              </div>
+              <div class="col-sm-3 mb-3 mb-sm-0">
+                <label>Distrito</label>
+                <input [ngClass]="{ 'is-invalid': f.distrito?.errors }" formControlName="distrito" type="text"
+                  class="form-control" maxlength="80">
+                <div *ngIf="f.distrito?.errors" class="invalid-feedback">
+                  El distrito es requerido
+                </div>
+              </div>
+              <div class="col-sm-3 mb-3 mb-sm-0">
+                <label>C&oacute;digo Postal</label>
+                <input [ngClass]="{ 'is-invalid': f.codigoPostal?.errors }" formControlName="codigoPostal" type="text"
+                  class="form-control" maxlength="20">
+                <div *ngIf="f.codigoPostal?.errors" class="invalid-feedback">
+                  El c&oacute;digo postal es requerido
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-12 mb-12 mb-sm-0">
+                <label>Direcci&oacute;n L&iacute;nea 1</label>
+                <textarea [ngClass]="{ 'is-invalid': f.otrasSennas?.errors }" maxlength="200"
+                  formControlName="otrasSennas" class="form-control"></textarea>
+                <div *ngIf="f.otrasSennas?.errors" class="invalid-feedback">
+                  Direcci&oacute;n L&iacute;nea 1 es requerido
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm-4 mb-4 mb-sm-0">
+                <label>Correo electr&oacute;nico notificaciones</label>
+                <input [ngClass]="{ 'is-invalid': f.correo?.errors }" maxlength="50" formControlName="correo"
+                  type="text" class="form-control">
+                <div *ngIf="f.correo?.errors" class="invalid-feedback">
+                  <div *ngIf="f.correo?.errors.required || f.tipoServicio?.hasError('whitespace')">
+                    El correo
+                    electr&oacute;nico es requerido
+                  </div>
+                  <div *ngIf="f.correo?.errors?.pattern">
+                    El correo no tiene un formato valido
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4 mb-4 mb-sm-0">
+                <label>Sitio web</label>
+                <input [ngClass]="{ 'is-invalid': f.url?.errors }" formControlName="url" maxlength="80" type="text"
+                  class="form-control">
+                <div *ngIf="f.url?.errors" class="invalid-feedback">
+                  El sitio web es requerido
+                </div>
+              </div>
+              <div class="col-sm-4 mb-4 mb-sm-0">
+                <label>N&uacute;mero de tel&eacute;fono</label>
+                <input [ngClass]="{ 'is-invalid': f.telefono?.errors }" maxlength="30"
+                  [textMask]="{mask: telefonoMaskara, guide: false}" formControlName="telefono" type="text"
+                  class="form-control">
+                <div *ngIf="f.telefono?.errors" class="invalid-feedback">
+                  El n&uacute;mero tel&eacute;fonico es requerido
+                </div>
+              </div>
+            </div>
+
+            <label class="control-label">{{comboIdentificacionE == tipoIdentificaciones[1] ? 'Representante legal' : 'Persona Física'}}:</label>
+            <div class="form-group row">
+              <div class="col-sm-6 mb-6 mb-sm-0">
+                <label class="control-label">Tipo Identificación Física:</label>
+                <select [ngClass]="{'is-invalid' : f.tipoIdentificacion?.errors}"
+                  (change)="clickedTipoIDFisicaXJur($event.target.value)" formControlName="tipoIdentificacion"
+                  class="form-control" placeholder="Tipo Identificación">
+                  <option *ngFor="let tipoId of tipoIdentificacionesFisicas" [value]="tipoId">{{tipoId}}</option>
+                </select>
+                <div *ngIf="f.tipoIdentificacion?.errors" class="invalid-feedback">
+                  El tipo Identificación física es requerido
+                </div>
+              </div>
+
+
+              <div class="col-sm-6 mb-6 mb-sm-0">
+                <label class="control-label">Identificación</label>
+                <input [ngClass]="{ 'is-invalid':f.identificacionR?.errors}" type="text" formControlName="identificacionR"
+                  [maxlength]="identificacionMaxR" class="form-control" [placeholder]="'Identificación'">
+                <div *ngIf="f.identificacionR?.errors" class="invalid-feedback">
+                  <div *ngIf="f.identificacionR?.errors?.required || f.identificacionR?.hasError('whitespace')">
+                    La identificación es requerida
+                  </div>
+                  <div *ngIf="f.identificacionR?.errors?.minlength">
+                    La identificación debe ser
+                    {{cantidadIdentificacionMensajeR}}
+                  </div>
+                  <div *ngIf="f.identificacionR?.errors?.pattern">
+                    El tipo de identificación solo debe contener números
+                    {{identificacionMaxR === 9 ? '' : 'y letras, sin espacios ni guiones'}} e iniciar con
+                    un valor diferente de 0
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-4 mb-4 mb-sm-0">
+                <label>Nombre</label>
+                <input [ngClass]="{ 'is-invalid': f.nombre?.errors }" formControlName="nombre" maxlength="50"
+                  type="text" class="form-control">
+                <div *ngIf="f.nombre?.errors" class="invalid-feedback">
+                  El nombre es requerido
+                </div>
+              </div>
+              <div class="col-sm-4 mb-4 mb-sm-0">
+                <label>Primer Apellido</label>
+                <input [ngClass]="{ 'is-invalid': f.primerApellido?.errors }" maxlength="50"
+                  formControlName="primerApellido" name="primerApellido" type="text" class="form-control">
+                <div *ngIf="f.primerApellido?.errors" class="invalid-feedback">
+                  El primer apellido del es requerido
+                </div>
+              </div>
+              <div class="col-sm-4 mb-4 mb-sm-0">
+                <label>Segundo Apellido</label>
+                <input [ngClass]="{ 'is-invalid': f.segundoApellido?.errors }" maxlength="50"
+                  formControlName="segundoApellido" type="text" class="form-control">
+                <div *ngIf="f.segundoApellido?.errors" class="invalid-feedback">
+                  El segundo apellido es requerido
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div *ngIf="(perfil.personaFisica || perfil.personaJuridica) && servicioSeleccionado == 1">
+            <div class="form-group row">
+              <div class="col-sm-6 mb-6 mb-sm-0">
+                <label class="control-label">Tipo Identificación:</label>
+                <select formControlName="comboIdentificacion" class="form-control"
+                  (change)="clickedTipoID($event.target.value)">
+                  <option *ngFor="let tipoId of tipoIdentificaciones" [value]="tipoId">{{tipoId}}</option>
+                </select>
+              </div>
+              <div class="col-sm-6 mb-6 mb-sm-0" *ngIf="perfil.personaFisica">
+                <label class="control-label">Tipo Identificación Física:</label>
+                <select [ngClass]="{'is-invalid' : f.tipoIdentificacion?.errors}"
+                  (change)="clickedTipoIDFisica($event.target.value)" formControlName="tipoIdentificacion"
+                  class="form-control" placeholder="Tipo Identificación">
+                  <option *ngFor="let tipoId of tipoIdentificacionesFisicas" [value]="tipoId">{{tipoId}}</option>
+                </select>
+                <div *ngIf="f.tipoIdentificacion?.errors" class="invalid-feedback">
+                  El tipo Identificación física es requerido
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm-6 mb-6 mb-sm-0">
+                <label class="control-label">{{perfil.personaFisica ? 'Identificación' : 'Cédula jurídica'}}:</label>
+                <input [ngClass]="{ 'is-invalid':f.identificacion?.errors}" type="text" formControlName="identificacion"
+                  [maxlength]="identificacionMax" class="form-control"
+                  [placeholder]="perfil.personaFisica ? 'Identificación' : 'Cédula jurídica'">
+                <div *ngIf="f.identificacion?.errors" class="invalid-feedback">
+                  <div *ngIf="f.identificacion?.errors?.required || f.identificacion?.hasError('whitespace')">
+                    La {{perfil.personaFisica ? 'identificación' : 'cédula jurídica'}} es requerida
+                  </div>
+                  <div *ngIf="f.identificacion?.errors?.minlength">
+                    La {{perfil.personaFisica ? 'identificación' : 'cédula jurídica'}} debe ser
+                    {{cantidadIdentificacionMensaje}}
+                  </div>
+                  <div *ngIf="f.identificacion?.errors?.pattern">
+                    El tipo de identificación {{perfil.personaFisica ? 'física' : 'jurídica'}} solo debe contener
+                    números
+                    {{identificacionMax === 9 ? '' : 'y letras, sin espacios ni guiones'}} e iniciar con
+                    un valor diferente de 0
+                  </div>
+                </div>
+              </div>
+
+              <div *ngIf="perfil.personaFisica" class="col-sm-6 mb-6 mb-sm-0">
+                <label class="control-label">Nombre:</label>
+                <input [ngClass]="{ 'is-invalid':f.nombre?.errors }" maxlength="80" type="text" formControlName="nombre"
+                  class="form-control" placeholder="Nombre">
+                <div *ngIf="f.nombre?.errors" class="invalid-feedback">
+                  El nombre es requerido
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="perfil.personaFisica">
+
+              <div class="form-group row">
+                <div class="col-sm-6 mb-6 mb-sm-0">
+                  <label class="control-label">Primer Apellido:</label>
+                  <input [ngClass]="{ 'is-invalid':f.primerApellido?.errors }" maxlength="80" type="text"
+                    class="form-control form-control-user" formControlName="primerApellido"
+                    placeholder="Primer Apellido">
+                  <div *ngIf="f.primerApellido?.errors" class="invalid-feedback">
+                    El primer apellido es requerido
+                  </div>
+                </div>
+                <div class="col-sm-6 mb-6 mb-sm-0">
+                  <label class="control-label">Segundo Apellido:</label>
+                  <input [ngClass]="{ 'is-invalid':f.segundoApellido?.errors }" maxlength="80" type="text"
+                    class="form-control form-control-user" formControlName="segundoApellido"
+                    placeholder="Segundo Apellido">
+                  <div *ngIf="f.segundoApellido?.errors" class="invalid-feedback">
+                    El segundo apellido es requerido
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <div class="col-sm-12 mb-12 mb-sm-0">
+                  <label class="control-label">Domicilio legal de quien presta el servicio</label>
+                  <textarea [ngClass]="{ 'is-invalid':f.domicilio?.errors }" maxlength="200" formControlName="domicilio"
+                    class="form-control"></textarea>
+                  <div *ngIf="f.domicilio?.errors" class="invalid-feedback">
+                    El domicilio legal es requerido
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf='perfil.personaJuridica'>
+
+              <div class="form-group row">
+                <div class="col-sm-6 mb-6 mb-sm-0">
+                  <label class="control-label">Nombre razón social:</label>
+                  <input [ngClass]="{ 'is-invalid':f.razonSocial?.errors }" maxlength="80" formControlName="razonSocial"
+                    class="form-control">
+                  <div *ngIf="f.razonSocial?.errors" class="invalid-feedback">
+                    La raz&oacute;n social es requerido
+                  </div>
+                </div>
+
+                <div class="col-sm-6 mb-6 mb-sm-0">
+                  <label class="control-label">Tipo Identificación Física del representante legal:</label>
+                  <select [ngClass]="{'is-invalid' : f.tipoIdentificacionR?.errors}"
+                    (change)="clickedTipoIDFisicaXJur($event.target.value, false)" formControlName="tipoIdentificacionR"
+                    class="form-control" placeholder="Tipo Identificación">
+                    <option *ngFor="let tipoId of tipoIdentificacionesFisicas" [value]="tipoId">{{tipoId}}</option>
+                  </select>
+                  <div *ngIf="f.tipoIdentificacionR?.errors" class="invalid-feedback">
+                    El tipo Identificación física es requerido
+                  </div>
+                </div>
+
+                <div class="col-sm-6 mb-6 mb-sm-0">
+                  <label class="control-label">Identificación del representante legal</label>
+                  <input [ngClass]="{ 'is-invalid':f.identificacionR?.errors}" type="text"
+                    formControlName="identificacionR" [maxlength]="identificacionMaxR" class="form-control"
+                    [placeholder]="'Identificación'">
+                  <div *ngIf="f.identificacionR?.errors" class="invalid-feedback">
+                    <div *ngIf="f.identificacionR?.errors?.required || f.identificacionR?.hasError('whitespace')">
+                      La identificación es requerida
+                    </div>
+                    <div *ngIf="f.identificacionR?.errors?.minlength">
+                      La identificación debe ser
+                      {{cantidadIdentificacionMensajeR}}
+                    </div>
+                    <div *ngIf="f.identificacionR?.errors?.pattern">
+                      El tipo de identificación solo debe contener números
+                      {{identificacionMaxR === 9 ? '' : 'y letras, sin espacios ni guiones'}} e iniciar con
+                      un valor diferente de 0
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-6 mb-6 mb-sm-0">
+                  <label class="control-label">Nombre del representante legal:</label>
+                  <input [ngClass]="{ 'is-invalid':f.nombre?.errors }" maxlength="80" type="text"
+                    formControlName="nombre" class="form-control" placeholder="Nombre">
+                  <div *ngIf="f.nombre?.errors" class="invalid-feedback">
+                    El nombre es requerido
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <div class="col-sm-6 mb-6 mb-sm-0">
+                  <label class="control-label">Primer apellido del representante legal:</label>
+                  <input [ngClass]="{ 'is-invalid':f.primerApellido?.errors }" maxlength="80" type="text"
+                    class="form-control form-control-user" formControlName="primerApellido"
+                    placeholder="Primer Apellido">
+                  <div *ngIf="f.primerApellido?.errors" class="invalid-feedback">
+                    El primer apellido del representante legal es requerido
+                  </div>
+                </div>
+                <div class="col-sm-6 mb-6 mb-sm-0">
+                  <label class="control-label">Segundo apellido del representante legal:</label>
+                  <input [ngClass]="{ 'is-invalid':f.segundoApellido?.errors }" maxlength="80" type="text"
+                    class="form-control form-control-user" formControlName="segundoApellido"
+                    placeholder="Segundo Apellido">
+                  <div *ngIf="f.segundoApellido?.errors" class="invalid-feedback">
+                    El segundo apellido del representante legal es requerido
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <div class="col-sm-12 mb-12 mb-sm-0">
+                  <label class="control-label">Domicilio legal</label>
+                  <textarea [ngClass]="{ 'is-invalid':f.domicilio?.errors }" formControlName="domicilio" maxlength="200"
+                    class="form-control"></textarea>
+                  <div *ngIf="f.domicilio?.errors" class="invalid-feedback">
+                    El domicilio legal es requerido
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm-4 mb-4 mb-sm-0">
+                <label>Correo electr&oacute;nico</label>
+                <input [ngClass]="{ 'is-invalid':f.correo?.errors }" maxlength="80" formControlName="correo" type="text"
+                  class="form-control">
+                <div *ngIf="f.correo?.errors" class="invalid-feedback">
+                  <div *ngIf="f.correo?.errors?.required || f.correo?.hasError('whitespace')">
+                    El correo
+                    electr&oacute;nico es requerido
+                  </div>
+                  <div *ngIf="f.correo?.errors?.pattern">
+                    El correo no tiene un formato valido
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <ul class="list-inline pull-right">
+            <button mat-button class="btn btn-color" type="submit"
+              [disabled]="this.registerForm.invalid || this.registerForm.pending" matStepperNext
+              (click)="siguientePerfil()">Siguiente</button>
+          </ul>
+        </form>
+      </mat-step>
+
+      <mat-step *ngIf='alojamientoForm' [stepControl]="alojamientoForm" state="direccion" [optional]="false"
+        class="pt-5">
+        <h4 class="text-center">Localización del inmueble</h4>
+        <form [formGroup]="alojamientoForm">
+          <div [ngClass]="{ 'is-invalid': d.alojamiento?.errors }" class="form-group row">
+            <div class="col-sm-12 mb-6 mb-sm-0">
+              <div class="dropdown">
+                <a id="dLabel" role="button" data-toggle="dropdown" class="dropdown-forma" data-target="#">
+                  Seleccione un alojamiento: {{localizacion.alojamiento ? ' ' + localizacion.alojamiento.nombre : ''}}
+                  <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                  <li *ngFor="let alojamiento1 of listaAlojamiento"
+                    [ngClass]="{ 'dropdown-submenu': alojamiento1.children?.length > 0 }">
+                    <a tabindex="-1" (click)="clickedAlojamiento(alojamiento1.name)">
+                      {{alojamiento1.name.nombre}}
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li *ngFor="let alojamiento2 of alojamiento1.children"
+                        [ngClass]="{ 'dropdown-submenu': alojamiento2.children?.length > 0 }">
+                        <a tabindex="-1" (click)="clickedAlojamiento(alojamiento2.name)">
+                          {{alojamiento2.name.nombre}}
+                        </a>
+                        <ul class="dropdown-menu">
+                          <li *ngFor="let alojamiento3 of alojamiento2.children"
+                            [ngClass]="{ 'dropdown-submenu': alojamiento3.children?.length > 0 }">
+                            <a tabindex="-1" (click)="clickedAlojamiento(alojamiento3.name)">
+                              {{alojamiento3.name.nombre}}
+                            </a>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+              <input [ngClass]="{ 'is-invalid': d.alojamiento?.errors }" formControlName="alojamiento"
+                class="form-control" style="display:none;">
+              <div *ngIf="d.alojamiento?.errors" class="invalid-feedback">
+                El alojamiento es requerido
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-sm-4 mb-3 mb-sm-0">
+              <div class="form-group">
+                <label>Provincia</label>
+                <select name="provincia" formControlName="provincia" class="form-control" placeholder="Provincia"
+                  [ngClass]="{ 'is-invalid': d.provincia?.errors }" (change)="clickedProvincia($event.target.value)">
+                  <option *ngFor="let provincia of provincias" [value]="provincia.id">{{provincia.nombre}}</option>
+                </select>
+                <div *ngIf="d.provincia?.errors" class="invalid-feedback">
+                  La provincia es requerida
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4 mb-3 mb-sm-0">
+              <label class="control-label">Cantón:</label>
+              <select formControlName="canton" class="form-control" [disabled]="!localizacion.provinciaM"
+                placeholder="Cantón" [ngClass]="{ 'is-invalid': d.canton?.errors }"
+                (change)="clickedCanton($event.target.value)">
+                <option value={{null}} [selected]="selected">Seleccione</option>
+                <option *ngFor="let canton of cantones" [value]="canton.id">{{canton.nombre}}</option>
+              </select>
+              <div *ngIf="d.canton?.errors" class="invalid-feedback">
+                El cantón es requerido
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <label class="control-label">Distrito:</label>
+              <select formControlName="distrito" class="form-control" [disabled]="habilitarDistrito"
+                placeholder="Distrito" [ngClass]="{ 'is-invalid': d.distrito?.errors}"
+                (change)="clickedDistrito($event.target.value)">
+                <option value={{null}} [selected]="selected">Seleccione</option>
+                <option *ngFor="let distrito of distritos" [value]="distrito.id">{{distrito.nombre}}</option>
+              </select>
+              <div *ngIf="d.distrito?.errors" class="invalid-feedback">
+                El distrito es requerido
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label">Dirección exacta:</label>
+            <textarea maxlength="255" formControlName="direccion" type="text" class="form-control"
+              placeholder="Dirección" [ngClass]="{ 'is-invalid': d.direccion?.errors }"></textarea>
+            <div *ngIf="d.direccion?.errors" class="invalid-feedback">
+              La dirección es requerida
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-sm-4 mb-4 mb-sm-0">
+              <label class="control-label">N&uacute;mero de habitaciones:</label>
+              <input [ngClass]="{ 'is-invalid': d.numHabitaciones?.errors }" (keypress)="stripText($event)"
+                formControlName="numHabitaciones" type="text" maxlength="6" class="form-control">
+              <div *ngIf="d.numHabitaciones?.errors" class="invalid-feedback">
+                El n&uacute;mero de habitaciones es requerido
+              </div>
+            </div>
+
+            <div class="col-sm-4 mb-4 mb-sm-0">
+              <label class="control-label">N&uacute;mero m&aacute;ximo de hu&eacute;spedes:</label>
+              <input [ngClass]="{ 'is-invalid': d.numMaxHuespedes?.errors }" type="text" maxlength="6"
+                formControlName="numMaxHuespedes" class="form-control" (keypress)="stripText($event)">
+              <div *ngIf="d.numMaxHuespedes?.errors" class="invalid-feedback">
+                El n&uacute;mero m&aacute;ximo de de hu&eacute;spedes es requerido
+              </div>
+            </div>
+
+            <div class="col-sm-4 mb-4 mb-sm-0">
+              <label class="control-label">N&uacute;mero de camas:</label>
+              <input [ngClass]="{ 'is-invalid': d.numCamas?.errors }" type="text" maxlength="6"
+                formControlName="numCamas" class="form-control" (keypress)="stripText($event)">
+              <div *ngIf="d.numCamas?.errors" class="invalid-feedback">
+                El n&uacute;mero de camas es requerido
+              </div>
+            </div>
+          </div>
+
+          <label class="control-label" data-toggle="tooltip"
+            data-title="Si contiene más de un enlace web del alojamiento agréguelo en los demás campos.">
+            Enlace web del alojamiento
+          </label>
+          <div class="form-group row">
+            <div class="col-sm-4 mb-4 mb-sm-0">
+              <input [ngClass]="{ 'is-invalid': d.url1?.errors }" formControlName="url1" maxlength="50" type="text"
+                class="form-control">
+              <div *ngIf="d.url1?.errors" class="invalid-feedback">
+                El enlace es requerido
+              </div>
+            </div>
+            <div class="col-sm-4 mb-4 mb-sm-0">
+              <input [ngClass]="{ 'is-invalid': d.url2?.errors }" formControlName="url2" maxlength="50" type="text"
+                class="form-control">
+              <div *ngIf="d.url2?.errors" class="invalid-feedback">
+                El enlace es requerido
+              </div>
+            </div>
+            <div class="col-sm-4 mb-4 mb-sm-0">
+              <input [ngClass]="{ 'is-invalid': d.url3?.errors }" formControlName="url3" maxlength="50" type="text"
+                class="form-control">
+              <div *ngIf="d.url3?.errors" class="invalid-feedback">
+                El enlace es requerido
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-sm-6 mb-6 mb-sm-0">
+              <label class="control-label">Correo electr&oacute;nico para recibir notificaciones: </label>
+              <input [ngClass]="{ 'is-invalid': d.correo?.errors }" maxlength="80" formControlName="correo" type="email"
+                class="form-control">
+              <div *ngIf="d.correo?.errors" class="invalid-feedback">
+                <div *ngIf="d.correo?.errors?.required || d.correo?.hasError('whitespace')">
+                  El correo electr&oacute;nico es requerido
+                </div>
+                <div *ngIf="d.correo?.errors.pattern">
+                  El correo no tiene un formato valido
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-6 mb-6 mb-sm-0">
+              <label class="control-label">N&uacute;mero de tel&eacute;fono:</label>
+              <input [ngClass]="{ 'is-invalid': d.telefono?.errors }" [textMask]="{mask:telefonoMaskara, guide: false}"
+                maxlength="30" formControlName="telefono" type="text" class="form-control">
+              <div *ngIf="d.telefono?.errors" class="invalid-feedback">
+                <div *ngIf="d.telefono?.errors.required || d.telefono?.hasError('whitespace')">
+                  El n&uacute;mero de tel&eacute;fono es requerido
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <ul class="list-inline pull-right">
+            <div *ngIf="arrayLocalizacion.length > 0 && _masLocalizaciones">
+              ¿Desea agregar un nuevo inmueble?
+              <button class="btn mr-1 btn-success" (click)="masLocalizaciones()">Si</button>
+              <button class="btn mr-1 btn-secondary" (click)="noMasLocalizaciones()">No</button>
+            </div>
+            <button class='btn mr-1 btn-color' mat-button [disabled]="alojamientoForm?.invalid || !_masLocalizaciones"
+              (click)="guardarLocalizacion()">Guardar</button>
+            <button class="btn mr-1 btn-color" mat-button matStepperPrevious>Atrás</button>
+            <button class="btn mr-1 btn-color" mat-button [disabled]="disabledAgregarLocalizaciones()"
+              matStepperNext>Siguiente</button>
+          </ul>
+        </form>
+      </mat-step>
+
+      <mat-step state="resumen" [optional]="false" class="pt-5">
+        <h4 class="text-center">Resumen</h4>
+        <div class="all-info-container">
+          <div class="list-content">
+            <a href="#listone" data-toggle="collapse" aria-expanded="false" aria-controls="listone">
+              Informaci&oacute;n de registro <i class="fa fa-chevron-down"></i>
+            </a>
+            <div class="collapse" id="listone">
+              <div class="list-box">
+                <div *ngIf="perfil.empresa && servicioSeleccionado == 2">
+                  <div class="form-group row">
+                    <div class="col-sm-6 mb-6 mb-sm-0">
+                      <label>Nombre raz&oacute;n social de la empresa</label>
+                      <input class="form-control" disabled="disabled" type="text" [value]="perfil.empresa.razonSocial">
+                    </div>
+                  </div>
+
+                  <label class="control-label">Domicilio legal de la empresa:</label>
+                  <div class="form-group row">
+                    <div class="col-sm-3 mb-3 mb-sm-0">
+                      <label>Pa&iacute;s</label>
+                      <input [value]="perfil.empresa.pais" type="text" class="form-control" disabled="disabled">
+                    </div>
+                    <div class="col-sm-3 mb-3 mb-sm-0">
+                      <label>Estado</label>
+                      <input [value]="perfil.empresa.estado" type="text" class="form-control" disabled="disabled">
+                    </div>
+                    <div class="col-sm-3 mb-3 mb-sm-0">
+                      <label>Cuidad</label>
+                      <input [value]="perfil.empresa.ciudad" type="text" class="form-control" disabled="disabled">
+                    </div>
+                    <div class="col-sm-3 mb-3 mb-sm-0">
+                      <label>Codigo Postal</label>
+                      <input [value]="perfil.empresa.codigoPostal" type="text" class="form-control" disabled="disabled">
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <div class="col-sm-12 mb-12 mb-sm-0">
+                      <label>Direcci&oacute;n L&iacute;nea 1</label>
+                      <textarea disabled="disabled" [value]="perfil.empresa.otrasSenas" maxlength="255"
+                        class="form-control"></textarea>
+                    </div>
+                  </div>
+
+                  <label class="control-label">Representante legal:</label>
+                  <div class="form-group row">
+                    <div class="col-sm-4 mb-4 mb-sm-0">
+                      <label>Nombre</label>
+                      <input disabled="disabled" [value]="perfil.empresa.nombreRepresentante" type="text"
+                        class="form-control">
+                    </div>
+                    <div class="col-sm-4 mb-4 mb-sm-0">
+                      <label>Primer Apellido</label>
+                      <input disabled="disabled" [value]="perfil.empresa.primerApe" type="text" class="form-control">
+                    </div>
+                    <div class="col-sm-4 mb-4 mb-sm-0">
+                      <label>Segundo Apellido</label>
+                      <input disabled="disabled" [value]="perfil.empresa.segundoApe" type=" text" class="form-control">
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <div class="col-sm-4 mb-4 mb-sm-0">
+                      <label>Correo electronico notificaciones</label>
+                      <input disabled="disabled" [value]="perfil.empresa.correo" type="text" class="form-control">
+                    </div>
+                    <div class="col-sm-4 mb-4 mb-sm-0">
+                      <label>Sitio web</label>
+                      <input disabled="disabled" [value]="perfil.empresa.url" type="text" class="form-control">
+                    </div>
+                    <div class="col-sm-4 mb-4 mb-sm-0">
+                      <label>N&uacute;mero de tel&eacute;fono</label>
+                      <input disabled="disabled" [value]="perfil.empresa.telefono" type="text" class="form-control">
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="(perfil.personaFisica || perfil.personaJuridica) && servicioSeleccionado == 1">
+                  <div *ngIf='perfil.personaFisica'>
+                    <div class="form-group row">
+                      <div class="col-sm-6 mb-6 mb-sm-0">
+                        <label class="control-label">Tipo Identificación:</label>
+                        <input disabled="disabled" type="text" class="form-control" [value]="comboIdentificacion">
+                      </div>
+
+                      <div class="col-sm-6 mb-6 mb-sm-0">
+                        <label class="control-label">Tipo Identificación:</label>
+                        <input disabled="disabled" type="text" class="form-control"
+                          [value]="perfil.personaFisica.tipoIdentificacionFisica">
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <div class="col-sm-6 mb-6 mb-sm-0">
+                        <label class="control-label">Identificación:</label>
+                        <input disabled="disabled" [value]='perfil.personaFisica.identificacion' type="text"
+                          class="form-control">
+                      </div>
+                      <div class="col-sm-6 mb-6 mb-sm-0">
+                        <label class="control-label">Nombre:</label>
+                        <input disabled="disabled" [value]='perfil.personaFisica.nombre' type="text"
+                          class="form-control">
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <div class="col-sm-6 mb-6 mb-sm-0">
+                        <label class="control-label">Primer Apellido:</label>
+                        <input disabled="disabled" [value]='perfil.personaFisica.apellido1' type="text"
+                          class="form-control">
+                      </div>
+
+                      <div class="col-sm-6 mb-6 mb-sm-0">
+                        <label class="control-label">Segundo Apellido:</label>
+                        <input disabled="disabled" [value]='perfil.personaFisica.apellido2' type="text"
+                          class="form-control">
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <div class="col-sm-12 mb-12 mb-sm-0">
+                        <label class="control-label">Domicilio legal de quien presta el servicio</label>
+                        <textarea disabled="disabled" [value]='perfil.personaFisica.domicilio' maxlength="255"
+                          class="form-control"></textarea>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div *ngIf='perfil.personaJuridica'>
+                    <div class="form-group row">
+                      <div class="col-sm-6 mb-6 mb-sm-0">
+                        <label class="control-label">Tipo Identificación:</label>
+                        <input disabled="disabled" type="text" class="form-control" [value]="comboIdentificacion">
+                      </div>
+
+                    </div>
+
+                    <div class="form-group row">
+                      <div class="col-sm-6 mb-6 mb-sm-0">
+                        <label class="control-label">Nombre razón social:</label>
+                        <input disabled="disabled" [value]='perfil.personaJuridica.nombreComercial' type="text"
+                          class="form-control">
+                      </div>
+
+                      <div class="col-sm-6 mb-6 mb-sm-0">
+                        <label class="control-label">Nombre del representante legal:</label>
+                        <input disabled="disabled" [value]='perfil.personaJuridica.nombreRepresentante' type="text"
+                          class="form-control">
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <div class="col-sm-6 mb-6 mb-sm-0">
+                        <label class="control-label">Primer apellido del representante legal:</label>
+                        <input disabled="disabled" [value]='perfil.personaJuridica.apellido1Representante' type="text"
+                          class="form-control">
+                      </div>
+                      <div class="col-sm-6 mb-6 mb-sm-0">
+                        <label class="control-label">Segundo apellido del representante legal:</label>
+                        <input disabled="disabled" [value]='perfil.personaJuridica.apellido2Representante' type="text"
+                          class="form-control">
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <div class="col-sm-12 mb-12 mb-sm-0">
+                        <label class="control-label">Domicilio legal</label>
+                        <textarea disabled="disabled" [value]='perfil.personaJuridica.domicilio' maxlength="255"
+                          class="form-control"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf='(perfil.personaFisica || perfil.personaJuridica) && servicioSeleccionado == 1' class="list-content">
+            <a href="#listtwo" data-toggle="collapse" aria-expanded="false" aria-controls="listtwo">
+              Informaci&oacute;n del alojamiento
+              <i class="fa fa-chevron-down"></i>
+            </a>
+            <div class="collapse" id="listtwo">
+              <div class="list-box">
+                <div *ngFor="let item of arrayLocalizacion" class="list-box">
+                  <mat-accordion multi>
+                    <mat-expansion-panel>
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          Informaci&oacute;n del inmueble
+                        </mat-panel-title>
+                      </mat-expansion-panel-header>
+                      <mat-form-field>
+                        <div *ngIf="!item.editar" class="pt-3">
+                          <div class="form-group row">
+                            <div class="col-sm-4 mb-3 mb-sm-0">
+                              <div class="form-group">
+                                <label class="label-control">Provincia</label>
+                                <label disabled="disabled" class="form-control">{{item.provincia.nombre}}</label>
+                              </div>
+                            </div>
+
+                            <div class="col-sm-4 mb-3 mb-sm-0">
+                              <label class="control-label">Cantón:</label>
+                              <label disabled="disabled" class="form-control">{{item.canton.nombre}}</label>
+                            </div>
+
+                            <div class="col-sm-4">
+                              <label class="control-label">Distrito:</label>
+                              <label disabled="disabled" class="form-control">{{item.distrito.nombre}}</label>
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label class="control-label">Dirección Exacta:</label>
+                            <textarea maxlength="255" disabled="false" class="form-control form-control-user"
+                              id="direccionResumen" placeholder="Dirección">{{item.direccion}}</textarea>
+                          </div>
+
+                          <div class="form-group row">
+                            <div class="col-sm-4 mb-4 mb-sm-0">
+                              <label class="control-label">N&uacute;mero de habitaciones</label>
+                              <label disabled="disabled" class="form-control">{{item.numHabitacion}}</label>
+                            </div>
+                            <div class="col-sm-4 mb-4 mb-sm-0">
+                              <label class="control-label">N&uacute;mero m&aacute;ximo de hu&eacute;spedes</label>
+                              <label disabled="disabled" class="form-control">{{item.numMaxHuesped}}</label>
+                            </div>
+                            <div class="col-sm-4 mb-4 mb-sm-0">
+                              <label class="control-label">N&uacute;mero de camas</label>
+                              <label disabled="disabled" class="form-control">{{item.numCamas}}</label>
+                            </div>
+                          </div>
+
+                          <label class="control-label">Enlace web del inmueble</label>
+                          <div class="form-group row">
+                            <div class="col-sm-4 mb-4 mb-sm-0">
+                              <input type="text" disabled="true" class="form-control" [value]="item.urlInmueble1">
+                            </div>
+
+                            <div class="col-sm-4 mb-4 mb-sm-0">
+                              <input type="text" disabled="true" class="form-control" [value]="item.urlInmueble2">
+                            </div>
+                            <div class="col-sm-4 mb-4 mb-sm-0">
+                              <input type="text" disabled="true" class="form-control" [value]="item.urlInmueble3">
+                            </div>
+                          </div>
+
+                          <div class="form-group row">
+                            <div class="col-sm-6 mb-6 mb-sm-0">
+                              <label class="control-label">Correo electr&oacute;nico para recibir notificaciones</label>
+                              <label disabled="true" class="form-control">{{item.correo}}</label>
+                            </div>
+
+                            <div class="col-sm-6 mb-6 mb-sm-0">
+                              <label class="control-label">N&uacute;mero de tel&eacute;fono</label>
+                              <label disabled="true" class="form-control">{{item.telefono}}</label>
+                            </div>
+                          </div>
+
+                          <div class="form-group row">
+                            <div class="col-sm-12">
+                              <label class="control-label">C&oacute;digo del inmueble</label>
+                              <label disabled="disabled" class="form-control">{{item.codigo}}</label>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-sm-12 pt-1 pb-1 d-flex justify-content-end">
+                              <button class="btn btn-success mr-2" *ngIf="item.editable || item.rechazar"
+                                (click)="actualizarInmueble(item)">Actualizar</button>
+                              <button class="btn btn-danger" *ngIf="!(item.aprobar)" 
+                                (click)="eliminarAlojamiento(item)">Eliminar</button>
+                            </div>
+                          </div>
+                        </div>
+
+                        <form *ngIf="item.editar && item.form" [formGroup]="item.form"
+                          (ngSubmit)="guardarInmueble(item)" class="pt-3">
+                          <div class="form-group row">
+                            <div class="col-sm-4 mb-3 mb-sm-0">
+                              <div class="form-group">
+                                <label class="label-control">Provincia</label>
+                                <label disabled="disabled" class="form-control">{{item.provincia.nombre}}</label>
+                              </div>
+                            </div>
+
+                            <div class="col-sm-4 mb-3 mb-sm-0">
+                              <label class="control-label">Cantón:</label>
+                              <label disabled="disabled" class="form-control">{{item.canton.nombre}}</label>
+                            </div>
+
+                            <div class="col-sm-4">
+                              <label class="control-label">Distrito:</label>
+                              <label disabled="disabled" class="form-control">{{item.distrito.nombre}}</label>
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label class="control-label">Dirección Exacta:</label>
+                            <textarea [ngClass]="{ 'is-invalid': getControls(item)?.direccion?.invalid }"
+                              maxlength="255" class="form-control form-control-user" formControlName="direccion"
+                              placeholder="Dirección"></textarea>
+                            <div *ngIf="getControls(item)?.direccion?.invalid" class="invalid-feedback">
+                              La dirección es requerido
+                            </div>
+                          </div>
+
+                          <div class="form-group row">
+                            <div class="col-sm-4 mb-4 mb-sm-0">
+                              <label class="control-label">N&uacute;mero de habitaciones</label>
+                              <input [ngClass]="{ 'is-invalid': getControls(item)?.numHabitaciones?.invalid }"
+                                formControlName="numHabitaciones" type="number" min="0" max="999999"
+                                class="form-control">
+                              <div *ngIf="getControls(item)?.numHabitaciones?.invalid" class="invalid-feedback">
+                                El número de habitaciones es requerido
+                              </div>
+                            </div>
+                            <div class="col-sm-4 mb-4 mb-sm-0">
+                              <label class="control-label">N&uacute;mero m&aacute;ximo de hu&eacute;spedes</label>
+                              <input [ngClass]="{ 'is-invalid': getControls(item)?.numMaxHuespedes?.invalid }"
+                                formControlName="numMaxHuespedes" type="number" min="0" max="999999"
+                                class="form-control">
+                              <div *ngIf="getControls(item)?.numMaxHuespedes?.invalid" class="invalid-feedback">
+                                El número máximo de huespedes es requerido
+                              </div>
+                            </div>
+                            <div class="col-sm-4 mb-4 mb-sm-0">
+                              <label class="control-label">N&uacute;mero de camas</label>
+                              <input [ngClass]="{ 'is-invalid': getControls(item)?.numCamas?.invalid }"
+                                formControlName="numCamas" type="number" min="0" max="999999" class="form-control">
+                              <div *ngIf="getControls(item)?.numCamas?.invalid" class="invalid-feedback">
+                                El número de camas es requerido
+                              </div>
+                            </div>
+                          </div>
+
+                          <label class="control-label">Enlace web del inmueble</label>
+                          <div class="form-group row">
+                            <div class="col-sm-4 mb-4 mb-sm-0">
+                              <input [ngClass]="{ 'is-invalid': getControls(item)?.url1?.invalid }"
+                                formControlName="url1" maxlength="50" type="text" class="form-control">
+                              <div *ngIf="getControls(item).url1.invalid" class="invalid-feedback">
+                                El enlace es requerido
+                              </div>
+                            </div>
+
+                            <div class="col-sm-4 mb-4 mb-sm-0">
+                              <input [ngClass]="{ 'is-invalid': getControls(item)?.url2?.invalid }"
+                                formControlName="url2" maxlength="50" type="text" class="form-control">
+                            </div>
+
+                            <div class="col-sm-4 mb-4 mb-sm-0">
+                              <input [ngClass]="{ 'is-invalid': getControls(item)?.url3?.invalid }"
+                                formControlName="url3" maxlength="50" type="text" class="form-control">
+                            </div>
+                          </div>
+
+                          <div class="form-group row">
+                            <div class="col-sm-6 mb-6 mb-sm-0">
+                              <label class="control-label">Correo electr&oacute;nico para recibir notificaciones</label>
+                              <input [ngClass]="{ 'is-invalid': getControls(item)?.correo?.invalid }"
+                                formControlName="correo" maxlength="80" type="text" class="form-control">
+                              <div *ngIf="getControls(item).correo?.invalid" class="invalid-feedback">
+                                <div
+                                  *ngIf="getControls(item)?.correo?.errors?.required || getControls(item)?.correo?.hasError('whitespace')">
+                                  El correo electr&oacute;nico es requerido
+                                </div>
+                                <div *ngIf="getControls(item)?.correo?.errors.email">
+                                  El correo electr&oacute;nico no tiene un formato válido
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="col-sm-6 mb-6 mb-sm-0">
+                              <label class="control-label">N&uacute;mero de tel&eacute;fono</label>
+                              <input [ngClass]="{ 'is-invalid': getControls(item)?.telefono?.invalid }"
+                                formControlName="telefono" type="text" class="form-control">
+                              <div *ngIf="getControls(item)?.telefono?.invalid" class="invalid-feedback">
+                                El número de teléfono es requerido
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="form-group row">
+                            <div class="col-sm-12">
+                              <label class="control-label">C&oacute;digo del inmueble</label>
+                              <label disabled="disabled" class="form-control">{{item.codigo}}</label>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-sm-12 pt-1 pb-1 d-flex justify-content-end">
+                              <button class="btn btn-secondary mr-2" (click)="cancelarInmueble(item)">Cancelar</button>
+                              <button class="btn btn-success mr-2" [disabled]="item.form.invalid"
+                                type="submit">Guardar</button>
+                            </div>
+                          </div>
+                        </form>
+                      </mat-form-field>
+                    </mat-expansion-panel>
+                  </mat-accordion>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <ul class="list-inline pull-right">
+          <button class="btn  mr-1 btn-color" mat-button matStepperPrevious (click)="regresarResumen()">Atrás</button>
+          <button class="btn  mr-1 btn-color" mat-button [disabled]="disabledFinalizar()"
+            (click)="finalizar(stepper)">Finalizar</button>
+        </ul>
+      </mat-step>
+    </div>
+  </mat-horizontal-stepper>
+</section>
+<section *ngIf="(!perfil || !registerForm) && !error" class="signup-step-container">
+  <h4 class="text-center">Cargando los datos...</h4>
+</section>
+
+<section *ngIf="error" class="signup-step-container p-5">
+  <h5>Ocurrió el siguiente error:</h5>
+  <p>{{error}}</p>
+</section>
+<hr *ngIf="error">

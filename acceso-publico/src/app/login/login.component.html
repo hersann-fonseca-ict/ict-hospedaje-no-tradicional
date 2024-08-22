@@ -1,0 +1,370 @@
+<div id="no_" class="bg-gradient-primary div-principal" *ngIf="resgistrarse=='no'">
+  <div class="container div-container">
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+      <div class="col-xl-12 col-lg-12 col-md-9">
+        <div class="card o-hidden border-0 shadow-lg my-5">
+          <div class="card-body p-0">
+            <!-- Nested Row within Card Body -->
+            <div class="row">
+              <div class="col-lg-2 d-none d-lg-block"></div>
+              <div class="col-lg-8">
+                <div class="p-5">
+                  <div class="text-center">
+                    <img alt="" class="img-responsive bg-header-image logo">
+                    <br>
+                    <br>
+                    <h3 class="h5 text-gray-900 mb-4">Ingrese sus datos para iniciar sesi&oacute;n</h3>
+                  </div>
+                  <br>
+                  <form class="user">
+                    <div class="form-group">
+                      <input [(ngModel)]="nombreUsuarioLogin" minlength="8" maxlength="60" type="email"
+                        class="form-control form-control-user" name="nombreUsuarioLogin" aria-describedby="emailHelp"
+                        placeholder="Ingrese usuario">
+                    </div>
+                    <div class="form-group">
+
+                      <div class="input-group">
+                        <input [type]="fieldTextType ? 'text' : 'password'" [(ngModel)]="contrasenaLogin"
+                          type="password" class="form-control form-control-user" name="contrasenaLogin"
+                          placeholder="Ingrese contraseña" maxlength="16" minlength="8">
+                        <div class="input-group-append">
+                          <span class="input-group-text">
+                            <i class="fa" [ngClass]="{
+                              'fa-eye-slash': !fieldTextType,
+                              'fa-eye': fieldTextType
+                            }" (click)="toggleFieldTextType()"></i>
+                          </span>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div name="inavlidas" *ngIf="credencialesInvalidas" class="alert alert-danger" role="alert">
+                      Credenciales invalidas.
+                    </div>
+                    <button type="button" (click)="iniciarSesion()" class="btn btn-primary btn-user btn-block">
+                      Iniciar sesión
+                    </button>
+                    <a style="color:aliceblue;" (click)="pantallaRegistro()" class="btn btn-google btn-user btn-block">
+                      Registrarse
+                    </a>
+                  </form>
+                  <hr>
+
+                  <div class="text-center">
+                    <a class="small" routerLink="." (click)="olvidoContrasena()">¿Olvidó su contraseña?</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-2 d-none d-lg-block"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="si_" class="bg-gradient-primary div-principal" *ngIf="resgistrarse=='si'">
+  <div class="container div-container">
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+
+      <div class="col-xl-12 col-lg-12 col-md-9">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+          <div class="card-body p-0">
+            <!-- Nested Row within Card Body -->
+            <div class="row">
+              <div class="col-lg-2"></div>
+              <div class="col-lg-8">
+                <div class="p-5">
+                  <div class="text-center">
+                    <img alt="" class="img-responsive bg-header-image">
+                    <br>
+                    <br>
+                    <h1 class="h5 text-gray-900 mb-4">Registro</h1>
+                  </div>
+                  <br>
+                  <form class="user" [formGroup]="nuevoUsuarioFormulario" novalidate>
+                    <!--     <div class="form-group">
+                      <input type="text" [(ngModel)]="nuevoUsuario.nombreUsuario" class="form-control form-control-user"
+                        name="nombreUsuario" formControlName="nombreUsuario" placeholder="Ingrese nombre usuario"
+                        required="true">
+                    </div> 
+                    <div
+                      *ngIf="nuevoUsuarioFormulario.controls['nombreUsuario'].invalid && (nuevoUsuarioFormulario.controls['nombreUsuario'].dirty || nuevoUsuarioFormulario.controls['nombreUsuario'].touched)"
+                      class="alert alert-danger">
+                      <div *ngIf="nuevoUsuarioFormulario.controls['nombreUsuario'].errors.required">
+                        El nombre de usuario es requerido.
+                      </div>
+                    </div>-->
+                    <div class="form-group">
+                      <input type="email" [(ngModel)]="nuevoUsuario.correo" class="form-control form-control-user"
+                        maxlength="80" name="email" formControlName="email" placeholder="Ingrese correo" required email>
+                    </div>
+                    <div
+                      *ngIf="nuevoUsuarioFormulario.controls['email'].invalid && (nuevoUsuarioFormulario.controls['email'].dirty || nuevoUsuarioFormulario.controls['email'].touched)"
+                      class="alert alert-danger">
+                      <div *ngIf="nuevoUsuarioFormulario.controls['email'].errors.required">
+                        El correo es requerido.
+                      </div>
+                      <div *ngIf="nuevoUsuarioFormulario.controls['email'].errors.email">
+                        Ingrese un correo valido
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group">
+                        <input [type]="fieldTextType ? 'text' : 'password'" minlength="8" maxlength="16" type="password"
+                          [(ngModel)]="nuevoUsuario.clave" class="form-control form-control-user"
+                          formControlName="contrasena" name="contrasena" placeholder="Contraseña" required>
+                        <div class="input-group-append">
+                          <span class="input-group-text">
+                            <i class="fa" [ngClass]="{
+                              'fa-eye-slash': !fieldTextType,
+                              'fa-eye': fieldTextType
+                            }" (click)="toggleFieldTextType()"></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      *ngIf="nuevoUsuarioFormulario.controls['contrasena'].invalid && (nuevoUsuarioFormulario.controls['contrasena'].dirty || nuevoUsuarioFormulario.controls['contrasena'].touched)"
+                      class="alert alert-danger">
+                      <div *ngIf="nuevoUsuarioFormulario.controls['contrasena'].errors.required">
+                        La contraseña es requerida.
+                      </div>
+                      <div *ngIf="nuevoUsuarioFormulario.controls['contrasena'].errors?.minlength">
+                        La contraseña debe contener entre 8 y 16 caracteres.
+                      </div>
+                    </div>
+
+                    <button type="submit" [disabled]="nuevoUsuarioFormulario.pristine || nuevoUsuarioFormulario.invalid"
+                      (click)="registrarUsuario()" style="color:aliceblue;" class="btn btn-primary btn-user btn-block">
+                      Registrarse
+                    </button>
+                  </form>
+                  <hr>
+                  <div class="text-center">
+                    <a class="small" routerLink="." (click)="olvidoContrasena()">¿Olvidó su contraseña?</a>
+                  </div>
+                  <div class="text-center">
+                    <a class="small" routerLink="." (click)="volverLogin()">¿Ya tiene cuenta? ¡Inicié sesión!</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-2"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="solicitud_" class="bg-gradient-primary div-principal" *ngIf="resgistrarse=='solicitud'">
+  <div class="container div-container">
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+
+      <div class="col-xl-12 col-lg-12 col-md-9">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+          <div class="card-body p-0">
+            <!-- Nested Row within Card Body -->
+            <div class="row">
+              <div class="col-lg-2"></div>
+              <div class="col-lg-8">
+                <div class="p-5">
+                  <div class="text-center">
+                    <img alt="" class="img-responsive bg-header-image">
+                    <br>
+                    <br>
+                    <h1 class="h5 text-gray-900 mb-4">Solicitar Código</h1>
+                  </div>
+                  <br>
+                  <form class="user" [formGroup]="codigoForm" novalidate>
+                    <div class="form-group">
+                      <input type="text" [(ngModel)]="nombreUsuario" class="form-control form-control-user"
+                        name="nombreUsuarioCodigo" formControlName="nombreUsuarioCodigo"
+                        placeholder="Ingrese nombre usuario" required="true">
+                    </div>
+                    <div
+                      *ngIf="codigoForm.controls['nombreUsuarioCodigo'].invalid && (codigoForm.controls['nombreUsuarioCodigo'].dirty || codigoForm.controls['nombreUsuarioCodigo'].touched)"
+                      class="alert alert-danger">
+                      <div *ngIf="codigoForm.controls['nombreUsuarioCodigo'].errors.required">
+                        El nombre de usuario es requerido.
+                      </div>
+                    </div>
+
+                    <button type="submit" [disabled]="codigoForm.pristine || codigoForm.invalid"
+                      (click)="solicitarCodigo()" style="color:aliceblue;" class="btn btn-primary btn-user btn-block">
+                      Solicitar código
+                    </button>
+                  </form>
+                  <hr>
+
+                  <div class="text-center">
+                    <a class="small" routerLink="." (click)="olvidoContrasena()">¿Ya tiene código? ¡Cambiar
+                      contraseña!</a>
+                  </div>
+                  <div class="text-center">
+                    <a class="small" routerLink="." (click)="volverLogin()">¿Ya tiene cuenta? ¡Inicié sesión!</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-2"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="cambio_" class="bg-gradient-primary div-principal" *ngIf="resgistrarse=='cambio'">
+  <div class="container div-container">
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+
+      <div class="col-xl-12 col-lg-12 col-md-9">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+          <div class="card-body p-0">
+            <!-- Nested Row within Card Body -->
+            <div class="row">
+              <div class="col-lg-2"></div>
+              <div class="col-lg-8">
+                <div class="p-5">
+                  <div class="text-center">
+                    <img alt="" class="img-responsive bg-header-image">
+                    <br>
+                    <br>
+                    <h1 class="h5 text-gray-900 mb-4">Recuperar contraseña</h1>
+                  </div>
+                  <form class="user" [formGroup]="cambioForm" novalidate>
+                    <div class="form-group">
+                      <input type="text" [(ngModel)]="nombreUsuario" class="form-control form-control-user"
+                        name="nombreUsuarioCambio" formControlName="nombreUsuarioCambio" placeholder="Ingrese Correo"
+                        required="true">
+                    </div>
+                    <div
+                      *ngIf="cambioForm.controls['nombreUsuarioCambio'].invalid && (cambioForm.controls['nombreUsuarioCambio'].dirty || cambioForm.controls['nombreUsuarioCambio'].touched)"
+                      class="alert alert-danger">
+                      <div *ngIf="cambioForm.controls['nombreUsuarioCambio'].errors.required">
+                        El correo es requerido.
+                      </div>
+                      <div *ngIf="cambioForm.controls['nombreUsuarioCambio'].errors?.email">
+                        Ingrese un correo valido
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <input type="text" [(ngModel)]="codigo" maxlength="8" class="form-control form-control-user"
+                        name="codigo" formControlName="codigo" placeholder="Ingrese código de verificación"
+                        required="true">
+                    </div>
+                    <div
+                      *ngIf="cambioForm.controls['codigo'].invalid && (cambioForm.controls['codigo'].dirty || cambioForm.controls['codigo'].touched)"
+                      class="alert alert-danger">
+                      <div *ngIf="cambioForm.controls['codigo'].errors.required">
+                        El código de verificación es requerido.
+                      </div>
+                    </div>
+                    <div class="input-group">
+                      <input [type]="fieldTextType ? 'text' : 'password'" minlength="8" maxlength="16" type="password"
+                        [(ngModel)]="nuevaContrasena" class="form-control form-control-user"
+                        formControlName="nuevaContrasena" name="nuevaContrasena" placeholder="Nueva contraseña"
+                        required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">
+                          <i class="fa" [ngClass]="{
+                            'fa-eye-slash': !fieldTextType,
+                            'fa-eye': fieldTextType
+                          }" (click)="toggleFieldTextType()"></i>
+                        </span>
+                      </div>
+                    </div>
+
+                    <div
+                      *ngIf="cambioForm.controls['nuevaContrasena'].invalid && (cambioForm.controls['nuevaContrasena'].dirty || cambioForm.controls['nuevaContrasena'].touched)"
+                      class="alert alert-danger">
+                      <div *ngIf="cambioForm.controls['nuevaContrasena'].errors.required">
+                        La contraseña es requerida.
+                      </div>
+                      <div *ngIf="cambioForm.controls['nuevaContrasena'].errors?.minlength">
+                        La contraseña debe contener entre 8 y 16 caracteres.
+                      </div>
+                    </div>
+                    <br>
+                    <button type="submit" [disabled]="cambioForm.pristine || cambioForm.invalid"
+                      (click)="cambiarContrasena()" style="color:aliceblue;" class="btn btn-primary btn-user btn-block">
+                      Cambiar contraseña
+                    </button>
+                  </form>
+                  <hr>
+                  <div class="text-center">
+                    <a class="small" routerLink="." (click)="pedirCodigo()">¿No tiene código? ¡Solicitar código!</a>
+                  </div>
+                  <div class="text-center">
+                    <a class="small" routerLink="." (click)="volverLogin()">¿Ya tiene cuenta? ¡Inicié sesión!</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-2"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="text-center div-texto">
+  <div class="container">
+    <p>&#191;Qu&eacute; es el Registro de Empresas y Actividades Tur&iacute;sticas&#63;</p>
+    <p class="text-justify">
+      El Registro es la plataforma que permitir&aacute; identificar los servicios tur&iacute;sticos formalizados en el
+      territorio
+      costarricense, los cuales forman parte de la oferta
+      tur&iacute;stica del pa&iacute;s seg&uacute;n el tipo de servicio y la clasificaci&oacute;n que corresponden
+      basados en la Ley Marco para la
+      Regularizaci&oacute;n del Hospedaje no Tradicional y su Intermediaci&oacute;n a
+      trav&eacute;s de Plataformas Digitales, y en el Reglamento de las Empresas y Actividades tur&iacute;sticas,
+      seg&uacute;n el Decreto
+      Ejecutivo N.&#176; 43154-H-TUR.
+    </p>
+    <p class="text-justify">
+      Mediante la Ley Marco para la Regularizaci&oacute;n del Hospedaje no Tradicional y su Intermediaci&oacute;n a
+      trav&eacute;s de
+      Plataformas Digitales, se habilita esta plataforma para el registro obligatorio
+      de los Prestatarios de Servicios de Hospedaje No Tradicional en el pa&iacute;s, y para las Empresas
+      Comercializadoras o
+      Intermediarias de dichos servicios. El ICT de conformidad con lo establecido
+      en la Ley Marco y su Reglamento, según el Decreto N.&#176; 43154-H-TUR, administrar&aacute; los registros y
+      definir&aacute;
+      los procesos y
+      requisitos para su inscripci&oacute;n.
+    </p>
+    <p class="text-justify">
+      Las personas prestadoras de servicios de Hospedaje No Tradicional en el pa&iacute;s son personas f&iacute;sicas y
+      jur&iacute;dicas
+      quienes prestan servicios de alquiler de viviendas, apartamentos, villas, chale&acute;s, bungal&oacute;s, cuartos
+      o cualquier
+      otra construcci&oacute;n análoga que conformen un todo homog&eacute;neo e independiente, y que sea para disfrute
+      de la persona
+      turista, nacional o extranjera, por per&iacute;odos no mayores a un a&ntilde;o, ni inferiores a veinticuatro
+      horas. Asimismo, se
+      registrar&aacute;n las Empresas Comercializadoras o plataformas digitales intermediarias de dichos servicios.
+    </p>
+  </div>
+</div>
+
+<a class="scroll-to-top rounded" href="#{{resgistrarse}}_">
+  <i class="fas fa-angle-up"></i>
+</a>
+
+<div>
+  <app-footer></app-footer>
+</div>
