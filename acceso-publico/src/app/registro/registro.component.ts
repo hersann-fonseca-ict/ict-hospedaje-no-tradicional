@@ -73,7 +73,7 @@ export class RegistroComponent implements OnInit {
     private direccionService: DireccionService,
     private tipoServicioService: TipoServicioService
   ) {
-    this.tipoIdentificacionesFisicas = ['Número de cédula física', 'DIMEX'];
+    this.tipoIdentificacionesFisicas = ['Número de cédula física', 'DIMEX', 'NITE'];
     this.tipoIdentificaciones = ['Física', 'Jurídica'];
   }
 
@@ -356,6 +356,15 @@ export class RegistroComponent implements OnInit {
         this.cantidadIdentificacionMensaje = 'de 9 dígitos';
         this.identificacionMax = 9;
       } else if (tipoSeleccionado == this.tipoIdentificacionesFisicas[1]) {
+        identificacion.setValidators(Validators.compose([
+          Validators.required,
+          Validators.minLength(12),
+          Validators.pattern('^[A-Za-z1-9]{1}[A-Za-z0-9]+')
+        ]));
+        this.identificacionMax = 12;
+        this.cantidadIdentificacionMensaje = 'de 12 dígitos y no puede iniciar con 0';
+      }
+      else if (tipoSeleccionado == this.tipoIdentificacionesFisicas[2]) {
         identificacion.setValidators(Validators.compose([
           Validators.required,
           Validators.minLength(12),
