@@ -407,6 +407,15 @@ export class RegistroComponent implements OnInit {
         this.identificacionMaxR = 12;
         this.cantidadIdentificacionMensajeR = 'de 12 dígitos y no puede iniciar con 0';
       }
+      else if (tipoSeleccionado == this.tipoIdentificacionesFisicas[2]) {
+        identificacion.setValidators(Validators.compose([
+          Validators.required,
+          Validators.minLength(12),
+          Validators.pattern('^[A-Za-z1-9]{1}[A-Za-z0-9]+')
+        ]));
+        this.identificacionMax = 12;
+        this.cantidadIdentificacionMensaje = 'de 12 dígitos y no puede iniciar con 0';
+      }
       identificacion.updateValueAndValidity();
     }
   }
